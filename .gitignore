@@ -1,0 +1,10 @@
+# Exports de skill (la source vit dans le dépôt privé claude-config)
+*.skill
+
+# Scories Windows / Office
+Thumbs.db
+desktop.ini
+~$*
+
+# Matiere de travail des sessions (notes de fin, jetables) - jamais versionnee
+_scratch/

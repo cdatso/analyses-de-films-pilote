@@ -1,0 +1,61 @@
+/* PILOTE — la seule feuille propre à cette surface (BKL-CIN-096, lot 4).
+ *
+ * Les trois autres feuilles (`fonts.css`, `mobilier.css`, `style.css`) sont
+ * reprises À L'IDENTIQUE du gabarit : leurs empreintes sont contrôlées, donc
+ * aucune règle du pilote ne s'y ajoute. Tout ce qui est propre au pilote vit
+ * ici, et ici seulement.
+ *
+ * Elle est liée EN DERNIER : ses règles priment sur celles du gabarit sans
+ * qu'aucune ne le modifie.
+ *
+ * Le bandeau est un ÉLÉMENT DE PAGE, pas un composant : il est le premier
+ * enfant de <body>, il tient toute la largeur, il ne se referme pas, il ne
+ * dépend d'aucun script — rien, dans cette feuille, ne peut le masquer.
+ */
+
+:root {
+  /* Les deux seules couleurs du pilote. Elles ne viennent pas de la palette du
+     gabarit (--ink / --paper / --accent) : le bandeau doit se voir comme un
+     avertissement, jamais comme un élément d'identité du site de production.
+     Contraste mesuré : 8,27:1 (WCAG AA exige 4,5:1) — contrôle (7). */
+  --pilote-fond: #8c2f1e;
+  --pilote-encre: #ffffff;
+}
+
+.bandeau-pilote {
+  background: var(--pilote-fond);
+  color: var(--pilote-encre);
+  border-bottom: 1px solid var(--pilote-fond);
+}
+
+.bandeau-pilote .bandeau-in {
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: 0.9rem 1.6rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  /* Répété explicitement : `style.css` colore tout `p` en --ink-soft, et un
+     texte brun sur fond brique tomberait sous le seuil de contraste. */
+  color: var(--pilote-encre);
+}
+
+.bandeau-pilote .bandeau-in strong {
+  font-weight: 700;
+}
+
+/* L'en-tête du pilote ne porte ni menu ni lien : la marque n'est donc pas
+   cliquable, et rien ne mène hors de cette page. */
+header.chrome .marque {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 640px) {
+  .bandeau-pilote .bandeau-in {
+    padding: 0.8rem 1.2rem;
+    font-size: 0.86rem;
+  }
+}
