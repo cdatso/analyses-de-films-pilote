@@ -1,0 +1,220 @@
+#!/bin/sh
+# outils/hooks/pre-push -- batterie de controle avant push vers main (RUN-001).
+#
+# ---------------------------------------------------------------------------
+# COPIE DATEE -- depot PILOTE (BKL-CIN-096 (b) lot 5, T1.3, 2026-09-18).
+# copie datee du 2026-09-18 de
+#   C:\Users\cdats\Claude\CIN\analyses-de-films\outils\hooks\pre-push
+# (depot de production) -- divergence non detectee automatiquement.
+#
+# ADAPTATION, UNE SEULE : l'etape [2/4] appelle genere-liste-pilote.py au lieu
+# de genere-liste-statique.py (le pilote n'a qu'une page de liste, et son
+# generateur lui est propre). Les trois autres etapes, l'ordre, l'exigence
+# d'arbre propre, le blindage SIGPIPE et les seuils sont INCHANGES.
+#
+# La baseline E1 du pilote (outils/hooks/baseline-e1.txt) part VIDE : le
+# pilote n'herite d'aucun ecart esthetique de la production. Fichier vide =
+# tolerance ZERO, tout E1 courant est traite comme NOUVEAU et refuse le push.
+#
+# FORME : ligne de copie datee translitteree en ASCII pur, convention des
+# scripts de ce depot.
+# ---------------------------------------------------------------------------
+#
+# Ne bloque QUE les pushes vers refs/heads/main : les pushes vers staging (et
+# toute autre ref) sortent 0 sans rien lire ni afficher -- un hook qui
+# prompte ou echoue en headless figerait les routines nocturnes (mandat
+# RUN-001, borne 2, lecon r2).
+#
+# Contournement documente et volontaire (mandat RUN-001, point 5) : le
+# gate ne s'interdit jamais techniquement --
+#     git push --no-verify
+# reste possible. C'est un geste EXCEPTIONNEL, a CONSIGNER (CHANGELOG),
+# jamais une pratique de routine.
+#
+# Activation (geste separe, PAS ce hook) : git config core.hooksPath outils/hooks
+#
+# Robustesse du verdict (RUN-004, Q-4i2 -- anomalie CIN-080 du 01/08) :
+# le code de sortie de CE SCRIPT ne doit jamais dependre de ce que
+# l'appelant fait de sa sortie (pipe tronque, `| Select-Object -First
+# N`, tuyau ferme...). Une ecriture (echo/cat) vers un lecteur qui a
+# ferme son bout provoque SIGPIPE ; sans amortisseur, le shell qui recoit
+# ce signal termine LE SCRIPT LUI-MEME avant d'atteindre son `exit`
+# explicite -- le verdict deja calcule n'est alors jamais rendu. On
+# ignore donc SIGPIPE pour tout le script (les ecritures echouent en
+# silence sur pipe casse, sans jamais tuer le processus) et, plus bas,
+# chaque verdict est calcule AVANT l'affichage qui peut casser.
+trap '' PIPE
+
+depot="$(cd "$(dirname "$0")/../.." && pwd)"
+py="python"
+
+# --- 1) Lire TOUTES les lignes stdin avant de decider (une passe globale,
+#     pas une par ref) : format pre-push = <local ref> <local sha> <remote
+#     ref> <remote sha>, une ligne par ref poussee dans la meme commande.
+cible_main=0
+while read -r local_ref local_sha remote_ref remote_sha; do
+    [ -z "$remote_ref" ] && continue
+    if [ "$remote_ref" = "refs/heads/main" ] && \
+       [ "$local_sha" != "0000000000000000000000000000000000000000" ]; then
+        cible_main=1
+    fi
+done
+
+if [ "$cible_main" -eq 0 ]; then
+    exit 0
+fi
+
+echo "[pre-push] push vers main detecte -- batterie de controle (RUN-001)."
+
+# --- 2) python absent ou casse sur ce poste : on laisse PASSER avec un
+#     avertissement fort (arbitrage AH du 31/07/2026 -- un poste mal
+#     configure ne doit pas bloquer totalement la publication).
+if ! command -v "$py" >/dev/null 2>&1; then
+    echo "############################################################" >&2
+    echo "[pre-push] AVERTISSEMENT : commande '$py' introuvable sur ce" >&2
+    echo "  poste. AUCUN CONTROLE JOUE -- le push vers main passe SANS" >&2
+    echo "  batterie. Corrige l'environnement Python avant la prochaine" >&2
+    echo "  publication." >&2
+    echo "############################################################" >&2
+    exit 0
+fi
+
+debut=$(date +%s)
+
+# --- 3) Arbre de travail propre exige. Les scripts de la batterie lisent
+#     les fichiers du DISQUE (option --depot), pas l'objet git du commit
+#     pousse : un arbre sale controlerait autre chose que ce qui part
+#     reellement en production.
+if [ -n "$(git -C "$depot" status --porcelain)" ]; then
+    echo "[pre-push] REFUSE : arbre de travail non propre." >&2
+    echo "  Ce hook controle les fichiers tels qu'ils sont sur le disque." >&2
+    echo "  Avec des modifications non commitees, il ne prouverait rien" >&2
+    echo "  sur ce qui est reellement pousse vers main." >&2
+    echo "  -> commite ou stash d'abord, puis repousse." >&2
+    echo "  Echappatoire exceptionnelle (a consigner) : git push --no-verify" >&2
+    exit 1
+fi
+
+echec=0
+
+# NOTE ROBUSTESSE (RUN-004, Q-4i2) : chaque etape [N/4] ecrit d'abord la
+# sortie de son sous-processus python dans un FICHIER REGULIER (jamais
+# un tuyau), et lit son code de sortie REEL depuis cette redirection --
+# jamais depuis un `echo`/`cat` ulterieur. Un fichier regulier n'obtient
+# jamais EPIPE, quoi que fasse l'appelant de la sortie du hook plus loin.
+# Sans ce blindage, l'interpreteur python peut echouer au moment de
+# vider son propre stdout (heritee, donc potentiellement cassee) et
+# renvoyer un code non nul SANS RAPPORT avec le controle lui-meme --
+# cause averee et reproduite de l'anomalie CIN-080 du 01/08 (un
+# `Exception ignored ... OSError` au vidage de stdout de
+# genere-liste-statique.py faisait REFUSER un push dont le controle
+# avait reellement reussi).
+
+echo ""
+echo "[1/4] controle-vocabulaires.py --strict"
+sortie1="$(mktemp)"
+"$py" "$depot/outils/controle-vocabulaires.py" --depot "$depot" --strict > "$sortie1" 2>&1
+statut1=$?
+cat "$sortie1"
+rm -f "$sortie1"
+if [ "$statut1" -ne 0 ]; then
+    echo "[pre-push] REFUSE : controle-vocabulaires.py --strict a echoue (detail ci-dessus)." >&2
+    echec=1
+fi
+
+if [ "$echec" -eq 0 ]; then
+    echo ""
+    echo "[2/4] genere-liste-pilote.py --verifier"
+    sortie2="$(mktemp)"
+    "$py" "$depot/outils/genere-liste-pilote.py" --depot "$depot" --verifier > "$sortie2" 2>&1
+    statut2=$?
+    cat "$sortie2"
+    rm -f "$sortie2"
+    if [ "$statut2" -ne 0 ]; then
+        echo "[pre-push] REFUSE : genere-liste-pilote.py --verifier a echoue (derive, detail ci-dessus)." >&2
+        echec=1
+    fi
+fi
+
+if [ "$echec" -eq 0 ]; then
+    echo ""
+    echo "[3/4] recompresse-affiches.py --seuil 300 --simuler (P-36, lecture seule)"
+    sortie3="$(mktemp)"
+    "$py" "$depot/outils/recompresse-affiches.py" --depot "$depot" --seuil 300 --simuler > "$sortie3" 2>&1
+    statut3=$?
+    cat "$sortie3"
+    rm -f "$sortie3"
+    if [ "$statut3" -ne 0 ]; then
+        echo "[pre-push] REFUSE : au moins une affiche reste au-dessus de 300 Ko meme apres simulation (P-36, detail ci-dessus)." >&2
+        echec=1
+    fi
+fi
+
+if [ "$echec" -eq 0 ]; then
+    echo ""
+    echo "[4/4] controle-contraste.py (gate sur les E1 NOUVEAUX -- hors baseline, RUN-004 Q-4i2)"
+    rapport="$(mktemp)"
+    e1_actuel="$(mktemp)"
+    if ! "$py" "$depot/outils/controle-contraste.py" --depot "$depot" --sortie-e1 "$e1_actuel" > "$rapport" 2>&1; then
+        # Verdict d'echec deja connu ici (code de sortie du script) --
+        # l'affichage qui suit ne peut plus changer le resultat.
+        echec=1
+        cat "$rapport"
+        echo "[pre-push] REFUSE : controle-contraste.py n'a pas pu aboutir (detail ci-dessus)." >&2
+    else
+        baseline="$depot/outils/hooks/baseline-e1.txt"
+        base_tri="$(mktemp)"
+        e1_tri="$(mktemp)"
+        if [ -f "$baseline" ]; then
+            grep -Ev '^[[:space:]]*(#|$)' "$baseline" | sort > "$base_tri"
+        else
+            : > "$base_tri"
+        fi
+        sort "$e1_actuel" > "$e1_tri"
+
+        # comm exige des fichiers TRIES : col1 = unique baseline, col2 =
+        # unique releve courant, col3 = commun. -13 => nouveaux (dans le
+        # releve, absents de la baseline) ; -23 => herites soldes (dans
+        # la baseline, absents du releve).
+        nouveaux="$(comm -13 "$base_tri" "$e1_tri")"
+        soldes="$(comm -23 "$base_tri" "$e1_tri")"
+
+        # --- Verdict calcule ICI, avant tout affichage qui peut casser
+        #     (sortie pipee/tronquee cote appelant, cf trap PIPE plus haut).
+        if [ -n "$nouveaux" ]; then
+            echec=1
+        fi
+
+        cat "$rapport"
+        if [ -n "$nouveaux" ]; then
+            echo "[pre-push] REFUSE : E1 NOUVEAU(X) hors baseline (outils/hooks/baseline-e1.txt) :" >&2
+            echo "$nouveaux" | while IFS='|' read -r p s t f seuil; do
+                echo "  - $p :: $s ($t sur $f, seuil $seuil:1)" >&2
+            done
+            echo "  (les E1 de la baseline restent non bloquants -- chantier esthetique lot4 hors mandat." >&2
+            echo "   les ecarts PROBABLES E2 restent affiches mais ne bloquent jamais -- doctrine du script.)" >&2
+        fi
+        if [ -n "$soldes" ]; then
+            echo ""
+            echo "[pre-push] SIGNALEMENT non bloquant -- E1 herite(s) SOLDE(S) encore dans la baseline :"
+            echo "$soldes" | while IFS='|' read -r p s t f seuil; do
+                echo "  - $p :: $s ($t sur $f, seuil $seuil:1) -- reduis outils/hooks/baseline-e1.txt"
+            done
+        fi
+        rm -f "$base_tri" "$e1_tri"
+    fi
+    rm -f "$rapport" "$e1_actuel"
+fi
+
+fin=$(date +%s)
+echo ""
+echo "[pre-push] batterie terminee en $((fin - debut))s."
+
+if [ "$echec" -ne 0 ]; then
+    echo "[pre-push] PUSH VERS MAIN REFUSE. Corrige le controle en echec ci-dessus, ou :" >&2
+    echo "  git push --no-verify   (geste exceptionnel, a consigner)" >&2
+    exit 1
+fi
+
+echo "[pre-push] batterie conforme -- push vers main autorise."
+exit 0

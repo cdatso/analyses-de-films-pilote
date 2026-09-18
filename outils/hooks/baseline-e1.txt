@@ -1,0 +1,42 @@
+# outils/hooks/baseline-e1.txt -- baseline des ECARTS CERTAINS (E1) de la
+# surface PILOTE.
+#
+# COPIE DATEE du 2026-09-18 de
+#   C:\Users\cdats\Claude\CIN\analyses-de-films\outils\hooks\baseline-e1.txt
+# (depot de production) -- divergence non detectee automatiquement.
+# BKL-CIN-096 (b) lot 5, T1.3. La REGLE DE VIE est reprise telle quelle ; les
+# 14 lignes d'heritage de la production, elles, ne sont PAS reprises.
+#
+# ELLE PART VIDE, ET C'EST UNE DECISION (mandat lot 5, T1.3) : le pilote
+# n'herite d'aucun ecart esthetique de la production. Consequence immediate,
+# a lire avec la regle de vie ci-dessous : TOLERANCE ZERO. Tout E1 mesure sur
+# une page de cette surface est un E1 NOUVEAU, et le hook refuse le push.
+#
+# REGLE DE VIE -- CLIQUET DESCENDANT :
+#   - Cette baseline ne s'ELARGIT JAMAIS sans gate AH explicite. La chaine
+#     pilote, qui publie sans relecture humaine, n'y ecrit JAMAIS : un E1 qui
+#     sort est un ARRET de la chaine et un rapport, pas une ligne de plus ici.
+#   - Elle se REDUIT quand un heritage est solde : retire sa ligne ici.
+#   - Le hook pre-push (etape [4/4]) refuse tout push vers main portant
+#     un E1 HORS baseline (E1 NOUVEAU, page+couple non liste ci-dessous).
+#   - Un E1 de cette liste absent du releve courant = heritage SOLDE :
+#     signalement NON BLOQUANT (invite a reduire ce fichier), le push
+#     n'est jamais refuse pour ce motif.
+#   - Absence de ce fichier (baseline introuvable) = tolerance ZERO par
+#     defaut : tout E1 courant est alors traite comme NOUVEAU (echec
+#     ferme cote hook, jamais d'ouverture silencieuse).
+#
+# FORMAT (une ligne = un couple E1 CERTAIN ; l'identite est la LIGNE
+# ENTIERE -- page + selecteur + couple, jamais un simple decompte, pour
+# qu'un E1 nouveau ne se masque pas derriere un heritage solde sur la
+# meme page) :
+#   page|selecteur|texte|fond|seuil
+#
+# Genere/re-mesure par : python outils/controle-contraste.py --depot . --sortie-e1 <fichier>
+# (le hook diffe ce fichier trie contre la re-mesure du moment via `comm`).
+#
+# Etiquettes de page en vigueur sur cette surface : index.html, 404.html, et
+# <nom>.html pour toute page de films/ le jour ou la chaine en publiera une.
+#
+# Derniere re-mesure : 2026-09-18, lot 5 T1 -- 0 E1 sur 0 page publiee.
+# (Aucune ligne d'ecart ci-dessous : c'est voulu.)
