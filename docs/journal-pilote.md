@@ -45,3 +45,11 @@ le lot 5 a outillé la chaîne, il ne l'a pas activée.*
 
 | Horodatage | Id | Titre | Décision | Étape et motif | Calibre déclaré | Durée | Commit | SHA-256 du calque |
 |---|---|---|---|---|---|---|---|---|
+| 2026-09-19 00:10:02 | 2 | Le Château ambulant | publié | — | Claude Opus 5 | 15 min | (ce commit) | 8E3FAE4E88E3E278D736EA58055E90DB2D14A4F84084926E0692178E1C32B88B |
+
+*Note de la colonne 8, première activation.* L'étape 11 du calque ne fait **qu'un seul commit**, et
+ce commit porte ce fichier : la ligne ne peut donc pas contenir le SHA du commit dont elle fait
+partie. Cas non prévu par le calque, porté à AH en élicitation le 2026-09-19 ; **décision d'AH,
+verbatim : « écrit (a) dans la colonne 8 »** — le marqueur `(ce commit)`, et le SHA réel cité au
+rapport de fin d'activation et aux pièces d'exécution du lot 6. Aucune colonne n'est ajoutée, aucune
+ligne n'est réécrite, et l'activation laisse **exactement une ligne**.

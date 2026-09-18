@@ -50,4 +50,19 @@
 // Il n'y a PAS de champ `promotion` sur cette surface : l'accueil du pilote
 // ne met rien en une.
 const FILMS = [
+  {
+    slug: 'le-chateau-ambulant',
+    title: 'Le Château ambulant',
+    director: 'Hayao Miyazaki',
+    year: 2004,
+    summary: "Une maison qui n'a pas de forme, une héroïne dont le visage suit la confiance qu'elle se porte : Miyazaki fait du désordre son sujet, et refuse jusqu'au bout de le remettre en ordre.",
+    url: 'films/le-chateau-ambulant.html',
+    poster: 'assets/posters/le-chateau-ambulant.jpg',
+    volet: 'critique',
+    datePublication: '2026-09-19 00:19',
+    genreBase: 'fantastique',
+    producteur: 'Claude Opus 5 (chaîne pilote automatique)',
+    pays: ['Japon'],
+    technique: ['couleur']
+  }
 ];
