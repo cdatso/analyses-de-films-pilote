@@ -23,14 +23,14 @@
     "",
     "LES ATTENDUS SONT ÉCRITS AVANT LE REJEU (mandat T1.6). Le champ 'attendu' de",
     "chaque cas est daté du 2026-09-18 et ne se retouche pas après coup : un écart",
-    "au rejeu s'explique ou se corrige, il ne se réécrit pas en attendu."
+    "au rejeu s'explique ou se corrige, il ne se réécrit pas en attendu.",
+    "",
+    "AMENDEMENT DU 2026-09-18 (2026-09-18 19:58:20), BKL-CIN-096 (b) LOT 5 BIS, T1 bis, session « Opus CIN-096 (b) lot 5 bis Calque v1.1 et exclusion Jekyll ». AJOUT SEUL : quatre scenarios S-05 a S-08, quatre motifs, et un etat simule du JOURNAL PILOTE et des BRANCHES LOCALES. Aucun des 15 cas ni des 4 scenarios du lot 5 n'est modifie. Motif : le calque passe en v1.1 sur deux conduites (fenetre MIXTE, anti-boucle) que la fixture du lot 5 ne couvrait NI l'une NI l'autre -- on n'amende pas la conduite d'une chaine sans humain sans la rejouer (ecart n°139)."
   ],
-
   "version": "1.0",
   "date_redaction": "2026-09-18",
   "redacteur": "session « Opus CIN-096 (b) lot 5 Skill pilote » (BKL-CIN-096 (b) lot 5)",
   "portee": "étape 0 de la skill analyse-films-pilote — rejeu HORS LIGNE (aucun appel à la base, aucune recherche web)",
-
   "motifs_eprouves": [
     "mot-outil de consigne dans le titre",
     "balise de balisage dans le titre",
@@ -45,20 +45,103 @@
     "film déjà publié en production, absent du registre pilote",
     "demande déjà au registre pilote",
     "égalité de slug, jamais préfixe",
-    "année hors plage"
+    "année hors plage",
+    "fenêtre MIXTE : des sautées, au moins un rejet, aucune éligible",
+    "un seul échec au journal : la demande reste ÉLIGIBLE",
+    "branche echec-* présente : une TRACE ne fait pas sauter la demande",
+    "deux ARRÊTS au contrôle d'identité : saut définitif et signalement"
   ],
-
   "contexte_simule": {
     "_lisez_moi": "Le rejeu est HORS LIGNE : ni la table, ni le web, ni le disque D: ne sont interrogés. Ce bloc tient lieu d'état du monde pour les cas qui en dépendent.",
     "date_du_rejeu": "2026-09-18",
     "annee_courante": 2026,
     "borne_annee_haute": 2028,
     "registre_pilote_simule": [
-      { "slug": "rosetta", "title": "Rosetta", "year": 1999, "datePublication": "2026-09-17 21:00" }
+      {
+        "slug": "rosetta",
+        "title": "Rosetta",
+        "year": 1999,
+        "datePublication": "2026-09-17 21:00"
+      }
     ],
-    "registre_production_rappel": "assets/films-data.js du dépôt de PRODUCTION porte notamment 'annie-hall' (Annie Hall, 1977). Il n'est PAS consulté par l'idempotence du pilote — écart déclaré, décision d'AH du 18/09/2026 « Registre pilote seul »."
+    "registre_production_rappel": "assets/films-data.js du dépôt de PRODUCTION porte notamment 'annie-hall' (Annie Hall, 1977). Il n'est PAS consulté par l'idempotence du pilote — écart déclaré, décision d'AH du 18/09/2026 « Registre pilote seul ».",
+    "journal_pilote_simule": {
+      "_lisez_moi": "Lignes du journal pilote (docs/journal-pilote.md) telles que la chaîne les lirait. Trois colonnes suffisent au comptage de v1.1 : 2 (id), 4 (décision) et 5 (étape et motif). RÈGLE v1.1 : un échec COMPTE si — et seulement si — id égal, décision « arrêt », et étape dans la liste FERMÉE {0.10, 0.11, 10, 11, plafond de durée}. Une ligne « publié » n'est pas un échec (I3) ; une ligne « arrêt » hors liste fermée non plus (interrupteur, empreinte, clé, réponse anormale, fenêtre mixte, plafond du JOUR : la demande en sort intacte).",
+      "par_scenario": {
+        "S-05": [],
+        "S-06": [
+          {
+            "id": 9008,
+            "decision": "arret",
+            "etape": "0.11",
+            "motif": "plancher de sourçage : 2 sources fiables, minimum 3"
+          }
+        ],
+        "S-07": [
+          {
+            "id": 9008,
+            "decision": "arret",
+            "etape": "0.10",
+            "motif": "contrôle d'identité : deuxième source injoignable (réseau)"
+          }
+        ],
+        "S-08": [
+          {
+            "id": 9008,
+            "decision": "arret",
+            "etape": "0.10",
+            "motif": "contrôle d'identité : une seule source"
+          },
+          {
+            "id": 9008,
+            "decision": "arret",
+            "etape": "0.10",
+            "motif": "contrôle d'identité : aucune source ne confirme le film"
+          }
+        ]
+      },
+      "lignes_temoins_qui_ne_comptent_pas": [
+        {
+          "id": 9008,
+          "decision": "publie",
+          "etape": "—",
+          "_pourquoi": "I3 v1.1 : une ligne « publié » fait sauter la demande, mais ne compte AUCUN échec"
+        },
+        {
+          "id": 9008,
+          "decision": "arret",
+          "etape": "0.2",
+          "_pourquoi": "interrupteur fermé : arrêt de la CHAÎNE, pas échec de la DEMANDE — hors liste fermée"
+        }
+      ]
+    },
+    "branches_locales_simulees": {
+      "_lisez_moi": "Sortie simulée de « git branch --list » du dépôt pilote. RÈGLE v1.1 : I4 ne regarde QUE les branches de production EN COURS ; les branches echec-* sont EXCLUES — elles sont la TRACE d'un échec passé, pas un compteur.",
+      "par_scenario": {
+        "S-05": [
+          "main"
+        ],
+        "S-06": [
+          "main"
+        ],
+        "S-07": [
+          "main",
+          "echec-tire-sur-le-pianiste-20260918-1412"
+        ],
+        "S-08": [
+          "main"
+        ]
+      },
+      "contre_epreuve_S-07": {
+        "branches": [
+          "main",
+          "tire-sur-le-pianiste"
+        ],
+        "attendu": "SAUT par I4",
+        "_pourquoi": "I4 doit continuer de faire son office : une branche de travail qui n'est PAS echec-* signale une production EN COURS et fait toujours sauter la demande. Sans cette contre-épreuve, S-07 pourrait passer parce que I4 ne marche plus du tout."
+      }
+    }
   },
-
   "cas": [
     {
       "ref": "H-01",
@@ -366,7 +449,6 @@
       }
     }
   ],
-
   "scenarios_fenetre": [
     {
       "ref": "S-01",
@@ -403,6 +485,53 @@
       "attendu": {
         "verdict": "SAUTÉE définitivement",
         "detail": "Deux échecs sur la même demande = la demande est sautée définitivement, et le pilote le SIGNALE. Le retour de cette demande dans le circuit est un geste d'AH (étape en base), jamais de la chaîne."
+      }
+    },
+    {
+      "ref": "S-05",
+      "motif_eprouve": "fenêtre MIXTE : des sautées, au moins un rejet, aucune éligible",
+      "situation": "la requête rend 3 demandes : 2 sont SAUTÉES (déjà au registre pilote) et 1 est REJETÉE aux bornes de forme ; aucune n'est éligible.",
+      "attendu": {
+        "verdict_fenetre": "ARRÊT",
+        "verdict_cas": "—",
+        "detail": "ARRÊT, rapport, AUCUNE publication. C'est la conduite écrite en v1.1 (décision d'AH du 18/09/2026, verbatim « ARRÊT dès qu'il y a un rejet et aucune éligible »). v1.0 ne disait RIEN de ce cas : ses deux règles s'y rencontraient sans arbitre.",
+        "a_ne_pas_confondre_avec": "« file vide » — qui ne se dit JAMAIS d'une fenêtre portant ne serait-ce qu'UN rejet",
+        "motif_de_securite": "sans cette règle, un tiers qui la connaît échappe TOUJOURS à l'ARRÊT en DILUANT la fenêtre : il lui suffit d'y laisser traîner une demande déjà publiée — elle sera sautée, jamais rejetée — pour que le « TOUTES rejetées » de v1.0 ne soit jamais atteint."
+      }
+    },
+    {
+      "ref": "S-06",
+      "motif_eprouve": "un seul échec au journal : la demande reste ÉLIGIBLE",
+      "situation": "la demande 9008 porte UN échec compté au journal pilote (étape 0.11, plancher de sourçage) ; aucune branche ; elle est rendue seule dans la fenêtre.",
+      "attendu": {
+        "verdict_fenetre": "TRAITEE",
+        "verdict_cas": "ELIGIBLE",
+        "detail": "PREMIER échec : la demande RESTE ÉLIGIBLE (décision d'AH ③, verbatim « Il ne bloque rien ; le SECOND rend le saut définitif »). En v1.0, I3 comptait TOUTE activation par id : cette ligne d'échec l'aurait fait SAUTER, et la règle des « deux échecs » était donc INATTEIGNABLE.",
+        "regression_gardee": "v1.0 aurait rendu SAUT ; v1.1 doit rendre ELIGIBLE"
+      }
+    },
+    {
+      "ref": "S-07",
+      "motif_eprouve": "branche echec-* présente : une TRACE ne fait pas sauter la demande",
+      "situation": "la demande 9008 porte UN échec compté au journal (étape 0.10) ET une branche locale « echec-tire-sur-le-pianiste-20260918-1412 » ; elle est rendue seule dans la fenêtre.",
+      "attendu": {
+        "verdict_fenetre": "TRAITEE",
+        "verdict_cas": "ELIGIBLE",
+        "detail": "C'est I4 corrigé : une branche echec-* est la TRACE d'un échec passé, PAS un compteur. Les échecs se comptent au journal, par id, et là seulement. En v1.0, I4 fermait la porte par un SECOND chemin, que la première correction n'avait pas vu (écart n°138).",
+        "contre_epreuve": "avec une branche « tire-sur-le-pianiste » (SANS le préfixe echec-), le verdict doit redevenir SAUT : I4 continue de détecter une production EN COURS."
+      }
+    },
+    {
+      "ref": "S-08",
+      "motif_eprouve": "deux ARRÊTS au contrôle d'identité : saut définitif et signalement",
+      "situation": "la demande 9008 porte DEUX lignes d'arrêt au contrôle d'identité (étape 0.10) au journal pilote ; elle est rendue seule dans la fenêtre.",
+      "attendu": {
+        "verdict_fenetre": "FILE VIDE",
+        "verdict_cas": "SAUT_DEF",
+        "detail": "DEUXIÈME échec sur le même id : la demande est SAUTÉE DÉFINITIVEMENT et le pilote le SIGNALE (décision d'AH du 18/09/2026 sur le point (c), verbatim « Oui — deux fois, saut définitif et signalement »). La fenêtre ne porte alors aucun rejet : elle rend « file vide », pas ARRÊT.",
+        "pourquoi_deux_et_pas_un": "le contrôle d'identité EXIGE le réseau : une coupure passagère rend EXACTEMENT le même ARRÊT qu'un titre qui n'est pas un film. À une frappe, une demande légitime serait condamnée par une panne.",
+        "pourquoi_il_compte_quand_meme": "sans lui, une phrase bien tournée qui n'est pas un film franchirait les bornes de forme, serait resélectionnée à CHAQUE activation, n'atteindrait JAMAIS deux échecs — et un seul dépôt figerait la file pour toujours.",
+        "signalement_attendu": "oui — le rapport de fin NOMME la demande sautée définitivement"
       }
     }
   ]

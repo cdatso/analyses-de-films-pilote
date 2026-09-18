@@ -1,0 +1,69 @@
+# _config.yml -- configuration de la construction Jekyll de la SURFACE PILOTE
+# https://pilote.cdatso.be  (depot cdatso/analyses-de-films-pilote)
+#
+# Cree le 2026-09-18 a 20:03:50 (`Get-Date`, outil PowerShell natif) par la session
+# << Opus CIN-096 (b) lot 5 bis Calque v1.1 et exclusion Jekyll >>, BKL-CIN-096 (b) lot 5 bis, T2.
+#
+# ---------------------------------------------------------------------------
+# POURQUOI CE FICHIER EXISTE -- ecart no 136, mesure le 18/09/2026 a 15h14 par le greffe
+# ---------------------------------------------------------------------------
+# GitHub Pages construit ce depot AVEC Jekyll. Sans exclusion, Jekyll SERT les fichiers
+# de travail du depot : il rend `docs/journal-pilote.md` en `docs/journal-pilote.html`
+# (mesure 200, text/html, SANS `noindex` NI bandeau), fait de meme pour les attendus de
+# la fixture, rend `outils/hooks/README.md` en INDEX DE DOSSIER a `outils/hooks/`, et
+# sert bruts les `.md`, la fixture `.json` et le hook `pre-push`.
+#
+# La borne A6 / S1 de l'analyse exige `noindex` sur CHAQUE page servie, plus le bandeau
+# << publication automatique, non relue >>. Ces pages-la n'en portent AUCUN des deux :
+# elles ne passent pas par le gabarit pilote.
+#
+# Sans consequence aujourd'hui -- le journal est a 0 activation. BLOQUANT demain :
+# chaque activation de la chaine y ecrirait une ligne portant l'`id`, le TITRE SAISI PAR
+# UN TIERS et la decision, dans une page HTML publique, indexable et non marquee.
+#
+# LE MOTIF DE FOND, en une phrase : **la chaine lit ces fichiers EN LOCAL, jamais en
+# ligne.** Aucun outil, aucun hook, aucun controle, aucune etape du calque
+# `analyse-films-pilote` ne va chercher `docs/`, `fixtures/`, `outils/` ni `README.md`
+# par HTTP : tout se lit sur le disque, dans l'arbre de travail. Les exclure ne retire
+# donc RIEN a la chaine -- cela retire seulement au public des pages qui echapperaient
+# au `noindex` et au bandeau.
+#
+# ---------------------------------------------------------------------------
+# CE QUI EST EXCLU -- les ONZE fichiers mesures (`git ls-files`, 18/09/2026)
+# ---------------------------------------------------------------------------
+#   README.md                                    <- racine
+#   docs/journal-pilote.md                       <- la piece de mesure, titres de tiers
+#   fixtures/ATTENDUS-demandes-hostiles-pilote.md
+#   fixtures/demandes-hostiles-pilote.json       <- charges hostiles deliberees
+#   outils/controle-contraste.py
+#   outils/controle-vocabulaires.py
+#   outils/genere-liste-pilote.py
+#   outils/recompresse-affiches.py
+#   outils/hooks/README.md                       <- rendu en index de dossier par Jekyll
+#   outils/hooks/baseline-e1.txt
+#   outils/hooks/pre-push
+#
+# L'exclusion porte sur les TROIS REPERTOIRES et le README de racine : elle couvre les
+# onze fichiers d'aujourd'hui ET tout fichier de travail qu'on y deposerait demain --
+# notamment les lignes que la chaine ecrira au journal des le lot 6.
+#
+# ---------------------------------------------------------------------------
+# CE QUI RESTE SERVI, ET QUI NE DOIT PAS BOUGER
+# ---------------------------------------------------------------------------
+#   index.html   404.html   CNAME   assets/**  (feuilles, fontes, registre, vocabulaires)
+#   et, des le lot 6, films/**  et  assets/posters/**
+# Ces pages-la passent par le gabarit pilote : elles portent le bandeau et le `noindex`.
+# ATTENTION : ne JAMAIS ajouter `CNAME` a l'exclusion -- c'est lui qui sert le
+# sous-domaine `pilote.cdatso.be`, et la borne A6 tombe sans lui.
+#
+# NOTE TECHNIQUE : la cle `exclude` REMPLACE la liste par defaut de Jekyll
+# (Gemfile, node_modules/, vendor/...). Aucun de ces chemins n'existe dans ce depot :
+# la substitution est sans effet ici. Si l'un d'eux y entrait un jour, il faudrait le
+# rajouter a la main ci-dessous.
+# ---------------------------------------------------------------------------
+
+exclude:
+  - "README.md"
+  - "docs/"
+  - "fixtures/"
+  - "outils/"

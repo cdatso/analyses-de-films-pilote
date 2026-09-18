@@ -59,6 +59,42 @@ tout verdict de cas :
 dit **jamais** d'une fenêtre rejetée. Une chaîne qui dirait « file vide » après dix rejets
 masquerait une attaque derrière une formule rassurante.
 
+## Tableau des attendus — 4 scénarios NOUVEAUX, v1.1 (S-05 à S-08)
+
+*Écrits le **2026-09-18 19:59:26** (`Get-Date`, outil PowerShell natif), **AVANT** le rejeu du lot 5 bis
+(mandat BKL-CIN-096 (b) lot 5 bis, T1 bis). Session « Opus CIN-096 (b) lot 5 bis Calque v1.1 et
+exclusion Jekyll ». **Rien du lot 5 n'est modifié ci-dessus : ces quatre scénarios s'AJOUTENT.***
+
+**Pourquoi ils existent** : le calque passe en **v1.1** sur **deux conduites** — la **fenêtre MIXTE**
+et l'**anti-boucle**. La fixture du lot 5 ne couvrait **ni l'une ni l'autre** : ses scénarios S-01 à
+S-04 ignorent le cas mixte, et son S-04 suppose l'échec définitif **déjà acquis** sans jamais éprouver
+le **chemin qui y mène**. *On n'amende pas la conduite d'une chaîne sans humain sans la rejouer*
+(écart n°139).
+
+| Réf | Situation | Attendu — fenêtre | Attendu — cas | Ce que ça prouve |
+|---|---|---|---|---|
+| **S-05** | 3 demandes : **2 sautées** (déjà au registre pilote), **1 rejetée** aux bornes de forme, **0 éligible** | **ARRÊT**, rapport, aucune publication | — | la **fenêtre MIXTE**, muette en v1.0. Le seuil n'est pas « **toutes** rejetées », c'est « **une** » — sans quoi un tiers **dilue** la fenêtre avec une demande déjà publiée et échappe toujours à l'ARRÊT |
+| **S-06** | demande `9008` : **UN** échec compté au journal (0.11, sourçage) ; aucune branche | **TRAITEE** | **ELIGIBLE** | **I3 corrigé** : une ligne d'`arrêt` n'est pas une publication. En v1.0, le **premier** échec faisait sauter la demande et rendait les « **deux** échecs » **inatteignables** |
+| **S-07** | demande `9008` : **UN** échec compté (0.10, identité) **ET** une branche locale `echec-tire-sur-le-pianiste-20260918-1412` | **TRAITEE** | **ELIGIBLE** | **I4 corrigé** : une branche `echec-*` est une **TRACE**, pas un compteur. C'est le **second chemin** que la première correction n'avait pas vu (écart n°138) |
+| **S-08** | demande `9008` : **DEUX** ARRÊTS au **contrôle d'identité** (0.10) au journal | **« file vide »** *(aucun rejet dans la fenêtre)* | **SAUT_DEF**, **signalé** | le **saut définitif** par le chemin de l'**identité** — décision d'AH du 18/09/2026, point (c), verbatim « **Oui — deux fois, saut définitif et signalement** » |
+
+**Contre-épreuve obligatoire de S-07** — sans elle, S-07 pourrait passer au vert simplement parce
+qu'**I4 ne marcherait plus du tout** : la **même** demande, avec une branche **`tire-sur-le-pianiste`**
+(*sans* le préfixe `echec-`), doit **redevenir SAUT**. I4 garde son office : détecter une production
+**EN COURS**.
+
+**Ce que ces quatre scénarios n'éprouvent PAS, et c'est voulu** : ils sont **HORS LIGNE**. Le contrôle
+d'identité (0.10) et le plancher de sourçage (0.11) ne sont **pas joués** — ils sont **simulés** par des
+lignes de journal. Ce qui est éprouvé ici, c'est la **conduite de la chaîne FACE à** ces lignes : le
+comptage, la conduite de fenêtre et le saut. La mesure **en ligne** de 0.10 et 0.11 reste **différée au
+lot 6** (H-07, H-11).
+
+**Règle de comptage éprouvée** (calque v1.1, §Échecs) : un échec **compte** si — et seulement si —
+la **colonne 2** porte l'`id` **égal**, la **colonne 4** vaut `arrêt`, et l'**étape** de la **colonne 5**
+appartient à la liste **fermée** `{0.10, 0.11, 10, 11, plafond de durée}`. La fixture porte deux **lignes
+témoins** qui **ne doivent rien compter** : une ligne `publié` (elle fait sauter par I3, sans compter
+d'échec) et un arrêt d'**interrupteur** (0.2, hors liste fermée — la demande en sort **intacte**).
+
 ## Verdict du rejeu — règle de lecture
 
 - **0 écart** entre attendu et obtenu = rejeu **vert**.
