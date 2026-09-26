@@ -35,8 +35,8 @@ certificateur ≠ décideur — d'où la règle de vie ci-dessous.
 | 5 | **Étape et motif d'arrêt** | l'étape atteinte (`0.2`, `0.6`, `7`, `10`, `11`…) et le motif en clair ; `—` si publié |
 | 6 | **Calibre déclaré** | le modèle déclaré à l'activation (R-012 : la déclaration interne ne vaut pas contrôle ; le transcript fait foi, ce champ dit ce qui a été déclaré) |
 | 7 | **Durée** | minutes écoulées, début → fin ; le plafond est de 60 min par activation |
-| 8 | **Commit** | le SHA court du commit de publication sur `main`, ou celui de la branche locale `echec-<slug>-<AAAAMMJJ>` en cas d'échec ; `—` si rien n'a été commité |
-| 9 | **SHA-256 du calque** | l'empreinte de la skill de production **mesurée à cette activation** — c'est la preuve qu'aucune activation n'a tourné sur un calque non épinglé (critère E6) |
+| 8 | **Commit** | pour une publication : le marqueur **`(ce commit)`** — la ligne entre dans l'unique commit de publication sur `main` et ne peut pas porter son propre SHA ; le SHA réel se lit au rapport de fin d'activation et au `git log` (calque v1.2, décision d'AH du 19/09/2026, verbatim « écrit (a) dans la colonne 8 ») ; en cas d'échec, celui de la branche locale `echec-<slug>-<AAAAMMJJ>` ; `—` si rien n'a été commité |
+| 9 | **SHA-256 du calque** | depuis le calque v1.2 : **`prod <sha8> · calque v<version> <sha8>`** — l'empreinte courte de la skill de production **mesurée à cette activation** (preuve qu'aucune activation n'a tourné sur un calque non épinglé, critère E6), puis la **version** et l'empreinte courte du **calque qui a tourné** (décision d'AH du 26/09/2026, verbatim « (a) » : neuf colonnes conservées). Les lignes antérieures à v1.2 portent l'empreinte complète de la skill de production seule |
 
 ## Activations
 
