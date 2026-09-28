@@ -28,14 +28,14 @@ certificateur ≠ décideur — d'où la règle de vie ci-dessous.
 
 | # | Colonne | Ce qu'elle porte |
 |---|---|---|
-| 1 | **Horodatage** | `AAAA-MM-JJ hh:mm:ss`, début de l'activation, lu au `Get-Date` — jamais estimé |
+| 1 | **Horodatage** | `AAAA-MM-JJ hh:mm:ss`, début de l'activation, lu au `Get-Date` — jamais estimé. Depuis le calque v1.3, une activation **en session cloud** lit `date -u` et porte le suffixe **` UTC`** (`AAAA-MM-JJ hh:mm:ss UTC`) ; sans suffixe, l'heure est celle du poste |
 | 2 | **Id de demande** | l'`id` de la ligne de `demandes_publiques` ; c'est la seule clé de rapprochement avec la table (un titre ne l'est pas : les doublons existent). `—` si la file était vide |
 | 3 | **Titre** | le `titre` de la demande, tel que reçu, borné à 150 caractères — donnée de tiers |
 | 4 | **Décision** | `publié` ou `arrêt` — rien d'autre, et jamais vide |
 | 5 | **Étape et motif d'arrêt** | l'étape atteinte (`0.2`, `0.6`, `7`, `10`, `11`…) et le motif en clair ; `—` si publié |
 | 6 | **Calibre déclaré** | le modèle déclaré à l'activation (R-012 : la déclaration interne ne vaut pas contrôle ; le transcript fait foi, ce champ dit ce qui a été déclaré) |
 | 7 | **Durée** | minutes écoulées, début → fin ; le plafond est de 60 min par activation |
-| 8 | **Commit** | pour une publication : le marqueur **`(ce commit)`** — la ligne entre dans l'unique commit de publication sur `main` et ne peut pas porter son propre SHA ; le SHA réel se lit au rapport de fin d'activation et au `git log` (calque v1.2, décision d'AH du 19/09/2026, verbatim « écrit (a) dans la colonne 8 ») ; en cas d'échec, celui de la branche locale `echec-<slug>-<AAAAMMJJ>` ; `—` si rien n'a été commité |
+| 8 | **Commit** | pour une publication : le marqueur **`(ce commit)`** — la ligne entre dans l'unique commit de publication sur `main` et ne peut pas porter son propre SHA ; le SHA réel se lit au rapport de fin d'activation et au `git log` (calque v1.2, décision d'AH du 19/09/2026, verbatim « écrit (a) dans la colonne 8 ») ; en cas d'échec, celui de la branche locale `echec-<slug>-<AAAAMMJJ>` ; `—` si rien n'a été commité. **En session cloud** (calque v1.3, décision d'AH du 28/09/2026, verbatim « (a) Journal poussé seul ») : une ligne d'échec entre dans un commit qui ne contient **que** ce fichier, poussé sur `main` — elle porte donc **`(ce commit)`** ; la branche `echec-*`, jamais poussée, meurt avec le conteneur, et son nom se lit au rapport de fin d'activation |
 | 9 | **SHA-256 du calque** | depuis le calque v1.2 : **`prod <sha8> · calque v<version> <sha8>`** — l'empreinte courte de la skill de production **mesurée à cette activation** (preuve qu'aucune activation n'a tourné sur un calque non épinglé, critère E6), puis la **version** et l'empreinte courte du **calque qui a tourné** (décision d'AH du 26/09/2026, verbatim « (a) » : neuf colonnes conservées). Les lignes antérieures à v1.2 portent l'empreinte complète de la skill de production seule |
 
 ## Activations
