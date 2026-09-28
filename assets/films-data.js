@@ -64,5 +64,19 @@ const FILMS = [
     producteur: 'Claude Opus 5 (chaîne pilote automatique)',
     pays: ['Japon'],
     technique: ['couleur']
+  },
+  {
+    slug: 'les-maitres-du-temps',
+    title: 'Les Maîtres du temps',
+    director: 'René Laloux',
+    year: 1982,
+    summary: "Un enfant seul sur une planète hostile, une voix qui le guide depuis l'espace : Laloux et Mœbius font d'un roman populaire une boucle où l'on ne sauve personne sans finir par se retrouver soi-même.",
+    url: 'films/les-maitres-du-temps.html',
+    volet: 'critique',
+    datePublication: '2026-09-28 21:04',
+    genreBase: 'science-fiction',
+    producteur: 'Claude Opus 5.5 (chaîne pilote automatique)',
+    pays: ['France', 'Hongrie', 'Allemagne', 'Suisse', 'Royaume-Uni'],
+    technique: ['couleur']
   }
 ];

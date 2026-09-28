@@ -46,6 +46,7 @@ le lot 5 a outillé la chaîne, il ne l'a pas activée.*
 | Horodatage | Id | Titre | Décision | Étape et motif | Calibre déclaré | Durée | Commit | SHA-256 du calque |
 |---|---|---|---|---|---|---|---|---|
 | 2026-09-19 00:10:02 | 2 | Le Château ambulant | publié | — | Claude Opus 5 | 15 min | (ce commit) | 8E3FAE4E88E3E278D736EA58055E90DB2D14A4F84084926E0692178E1C32B88B |
+| 2026-09-28 20:56:47 UTC | 7 | Les Maîtres du temps | publié | — | Claude Opus 5.5 | 8 min | (ce commit) | prod 8E3FAE4E · calque v1.3 647EA3E2 |
 
 *Note de la colonne 8, première activation.* L'étape 11 du calque ne fait **qu'un seul commit**, et
 ce commit porte ce fichier : la ligne ne peut donc pas contenir le SHA du commit dont elle fait
