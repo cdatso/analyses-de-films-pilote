@@ -72,6 +72,7 @@ const FILMS = [
     year: 1982,
     summary: "Un enfant seul sur une planète hostile, une voix qui le guide depuis l'espace : Laloux et Mœbius font d'un roman populaire une boucle où l'on ne sauve personne sans finir par se retrouver soi-même.",
     url: 'films/les-maitres-du-temps.html',
+    poster: 'assets/posters/les-maitres-du-temps.jpg',
     volet: 'critique',
     datePublication: '2026-09-28 21:04',
     genreBase: 'science-fiction',

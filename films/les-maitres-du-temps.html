@@ -154,6 +154,22 @@
   }
   dl.identite dd{ margin:0; color:rgba(244,236,220,0.93); }
 
+  /* Bloc affiche — ajouté le 29/09/2026 (correction manuelle sur instruction
+     d'AH ; la chaîne avait publié sans affiche, cas nominal en cloud). Règles
+     reprises du gabarit de la surface (le-chateau-ambulant.html), couleurs de
+     cette palette. */
+  .cover-media{ display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start; }
+  figure.poster{ margin:0; flex:0 0 12.4rem; max-width:100%; }
+  figure.poster img{
+    display:block; width:100%; height:auto;
+    border:1px solid rgba(244,236,220,0.28);
+    box-shadow:0 10px 26px rgba(17,13,34,0.55);
+  }
+  .cover-media dl.identite{ flex:1 1 15rem; min-width:13rem; }
+  @media (max-width:560px){
+    figure.poster{ flex:1 1 100%; max-width:15rem; }
+  }
+
   .provenance{
     margin-top:1.6rem; padding:0.75rem 0.95rem;
     border-left:3px solid var(--voyant);
@@ -281,6 +297,12 @@
     <p class="titre-original">René Laloux &mdash; 1982 &mdash; d&rsquo;après Stefan Wul, dessins de Mœbius</p>
     <p class="sous-titre">Un enfant seul sur une planète hostile, une voix qui le guide depuis l'espace&nbsp;: Laloux et Mœbius font d'un roman populaire une boucle où l'on ne sauve personne sans finir par se retrouver soi-même.</p>
 
+    <div class="cover-media">
+      <figure class="poster">
+        <img src="../assets/posters/les-maitres-du-temps.jpg"
+             alt="Affiche du film Les Maîtres du temps"
+             onerror="this.closest('.poster').remove()">
+      </figure>
     <dl class="identite">
       <div><dt>Réalisation</dt><dd>René Laloux</dd></div>
       <div><dt>Scénario</dt><dd>Jean-Patrick Manchette, Mœbius, René Laloux, d'après <em>L'Orphelin de Perdide</em> de Stefan Wul</dd></div>
@@ -290,9 +312,10 @@
       <div><dt>Musique</dt><dd>Jean-Pierre Bourtayre, Pierre Tardy, Christian Zanési</dd></div>
       <div><dt>Pays</dt><dd>France, Hongrie, Allemagne, Suisse, Royaume-Uni</dd></div>
     </dl>
+    </div>
 
     <div class="provenance">
-      <strong>Provenance.</strong> Analyse produite le 28 septembre 2026 par IAGen Claude d'Anthropic (Claude Opus 5.5), <strong>chaîne pilote automatique, sans relecture humaine</strong> &mdash; surface d'essai, hors du corpus publié.
+      <strong>Provenance.</strong> Analyse produite le 28 septembre 2026 par IAGen Claude d'Anthropic (Claude Opus 5.5), <strong>chaîne pilote automatique, sans relecture humaine</strong> &mdash; surface d'essai, hors du corpus publié. <strong>Correction du 29 septembre 2026</strong>, sur instruction du propriétaire du site&nbsp;: affiche ajoutée depuis son fonds d'affiches (la chaîne avait publié sans affiche) ; le texte de l'analyse est inchangé.
     </div>
   </div>
 </header>
