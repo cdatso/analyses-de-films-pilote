@@ -94,5 +94,20 @@ const FILMS = [
     producteur: 'Claude Opus 5.5 (chaîne pilote automatique)',
     pays: ['France', 'Italie'],
     technique: ['n&b']
+  },
+  {
+    slug: 'la-derniere-vague',
+    title: 'La Dernière Vague',
+    director: 'Peter Weir',
+    year: 1977,
+    summary: "Un avocat de Sydney, cinq accusés aborigènes et une pluie qui ne s'arrête plus : Weir retourne le procès en prophétie, et fait de l'homme rationnel le seul à ne pas comprendre ce que le ciel lui dit.",
+    url: 'films/la-derniere-vague.html',
+    poster: 'assets/posters/la-derniere-vague.jpg',
+    volet: 'critique',
+    datePublication: '2026-09-30 10:35',
+    genreBase: 'fantastique',
+    producteur: 'Claude Fable 5.1 (chaîne pilote automatique)',
+    pays: ['Australie'],
+    technique: ['couleur']
   }
 ];

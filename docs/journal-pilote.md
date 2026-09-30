@@ -49,6 +49,7 @@ le lot 5 a outillé la chaîne, il ne l'a pas activée.*
 | 2026-09-28 20:56:47 UTC | 7 | Les Maîtres du temps | publié | — | Claude Opus 5.5 | 8 min | (ce commit) | prod 8E3FAE4E · calque v1.3 647EA3E2 |
 | 2026-09-29 21:08:55 UTC | 1 | Le Salaire de la peur | publié | — | Claude Opus 5.5 | 8 min | (ce commit) | prod D2894F35 · calque v1.4 34AAE00C |
 | 2026-09-30 05:01:09 UTC | 44 | La dernière vague | arrêt | 8 — pays « Australie » absent du vocabulaire fermé `assets/vocabulaires.js` (axe bloquant, P-10/P-12) : aucun terme ajouté par la chaîne, geste d'AH ; constaté à la lecture du vocabulaire (8.1), avant rédaction ; arrêt de chaîne, non compté | Claude Fable 5.1 | 3 min | (ce commit) | prod D2894F35 · calque v1.4 34AAE00C |
+| 2026-09-30 08:27:16 UTC | 44 | La dernière vague | publié | — | Claude Fable 5.1 | 9 min | (ce commit) | prod D2894F35 · calque v1.4 34AAE00C |
 
 *Note de la colonne 8, première activation.* L'étape 11 du calque ne fait **qu'un seul commit**, et
 ce commit porte ce fichier : la ligne ne peut donc pas contenir le SHA du commit dont elle fait
