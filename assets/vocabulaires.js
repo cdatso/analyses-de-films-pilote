@@ -108,6 +108,7 @@ const VOCABULAIRES = {
      P-12 fait de chaque ajout un acte daté et commité. */
   pays: [
     'Allemagne',
+    'Australie',
     'Belgique',
     'Coree du Sud',
     'Cuba',
