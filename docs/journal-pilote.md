@@ -51,6 +51,7 @@ le lot 5 a outillé la chaîne, il ne l'a pas activée.*
 | 2026-09-30 05:01:09 UTC | 44 | La dernière vague | arrêt | 8 — pays « Australie » absent du vocabulaire fermé `assets/vocabulaires.js` (axe bloquant, P-10/P-12) : aucun terme ajouté par la chaîne, geste d'AH ; constaté à la lecture du vocabulaire (8.1), avant rédaction ; arrêt de chaîne, non compté | Claude Fable 5.1 | 3 min | (ce commit) | prod D2894F35 · calque v1.4 34AAE00C |
 | 2026-09-30 08:27:16 UTC | 44 | La dernière vague | publié | — | Claude Fable 5.1 | 9 min | (ce commit) | prod D2894F35 · calque v1.4 34AAE00C |
 | 2026-09-30 17:04:04 UTC | 51 | Merci pour le chocolat | arrêt | 0.7 — fenêtre mixte : la seule demande de la fenêtre (id 51) est rejetée en (b) par le lexique des bornes de forme (0.8) — mot-outil « claude » dans le champ realisateur, donnée : « Claude Chabrol » ; faux positif probable (prénom du cinéaste), nommé pour AH ; aucune éligible, une rejetée → ARRÊT sans publication ; arrêt de chaîne, non compté ; identité (0.10) non jouée | Claude Fable 5.1 | 3 min | (ce commit) | prod 53AA01FB · calque v1.5 CBDAE06B |
+| 2026-10-01 04:27:26 UTC | 51 | Merci pour le chocolat | publié | — | Claude Fable 5.1 | 10 min | (ce commit) | prod 53AA01FB · calque v1.6 2B5854A3 |
 
 *Note de la colonne 8, première activation.* L'étape 11 du calque ne fait **qu'un seul commit**, et
 ce commit porte ce fichier : la ligne ne peut donc pas contenir le SHA du commit dont elle fait

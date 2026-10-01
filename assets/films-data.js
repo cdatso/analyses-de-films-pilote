@@ -109,5 +109,20 @@ const FILMS = [
     producteur: 'Claude Fable 5.1 (chaîne pilote automatique)',
     pays: ['Australie'],
     technique: ['couleur']
+  },
+  {
+    slug: 'merci-pour-le-chocolat',
+    title: 'Merci pour le chocolat',
+    director: 'Claude Chabrol',
+    year: 2000,
+    summary: "Une héritière du chocolat, un pianiste qui ne veut rien voir et une tasse chaque soir : Chabrol retire au crime son mobile, et c'est cette absence d'explication qu'il donne à voir.",
+    url: 'films/merci-pour-le-chocolat.html',
+    poster: 'assets/posters/merci-pour-le-chocolat.jpg',
+    volet: 'critique',
+    datePublication: '2026-10-01 06:36',
+    genreBase: 'thriller',
+    producteur: 'Claude Fable 5.1 (chaîne pilote automatique)',
+    pays: ['France', 'Suisse'],
+    technique: ['couleur']
   }
 ];
