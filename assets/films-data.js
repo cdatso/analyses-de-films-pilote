@@ -139,5 +139,20 @@ const FILMS = [
     producteur: 'Claude Fable 5.1 (chaîne pilote automatique)',
     pays: ['Etats-Unis'],
     technique: ['couleur']
+  },
+  {
+    slug: 'the-reader',
+    title: 'The Reader',
+    director: 'Stephen Daldry',
+    year: 2008,
+    summary: "Une gardienne de camp qui ne sait pas lire, un adolescent qui lui fait la lecture, un juriste qui se tait : Daldry filme la honte allemande d'après-guerre comme une histoire d'amour, et c'est ce choix, plus que son sujet, qui divise.",
+    url: 'films/the-reader.html',
+    poster: 'assets/posters/the-reader.jpg',
+    volet: 'critique',
+    datePublication: '2026-10-10 12:26',
+    genreBase: 'drame',
+    producteur: 'Claude Fable 5.1 (chaîne pilote automatique)',
+    pays: ['Etats-Unis', 'Allemagne'],
+    technique: ['couleur']
   }
 ];
