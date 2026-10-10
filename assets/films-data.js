@@ -154,5 +154,19 @@ const FILMS = [
     producteur: 'Claude Fable 5.1 (chaîne pilote automatique)',
     pays: ['Etats-Unis', 'Allemagne'],
     technique: ['couleur']
+  },
+  {
+    slug: 'chaleur-et-poussiere',
+    title: 'Chaleur et Poussière',
+    director: 'James Ivory',
+    year: 1983,
+    summary: "Deux Anglaises à soixante ans d'écart, le même pays, la même grossesse et un seul choix qui diffère : Ivory et Jhabvala font du Raj un instrument de mesure de ce qu'une femme peut décider de son corps.",
+    url: 'films/chaleur-et-poussiere.html',
+    volet: 'critique',
+    datePublication: '2026-10-10 12:32',
+    genreBase: 'drame',
+    producteur: 'Claude Fable 5.1 (chaîne pilote automatique)',
+    pays: ['Royaume-Uni'],
+    technique: ['couleur']
   }
 ];
