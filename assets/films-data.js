@@ -168,5 +168,20 @@ const FILMS = [
     producteur: 'Claude Fable 5.1 (chaîne pilote automatique)',
     pays: ['Royaume-Uni'],
     technique: ['couleur']
+  },
+  {
+    slug: 'les-chevaux-de-dieu',
+    title: 'Les Chevaux de Dieu',
+    director: 'Nabil Ayouch',
+    year: 2012,
+    summary: "Deux frères d'un bidonville de Casablanca, dix ans de terrain vague et un soir de mai 2003 : Ayouch remonte le chemin qui mène du ballon à la ceinture d'explosifs, et refuse jusqu'au bout d'en désigner la cause unique.",
+    url: 'films/les-chevaux-de-dieu.html',
+    poster: 'assets/posters/les-chevaux-de-dieu.jpg',
+    volet: 'critique',
+    datePublication: '2026-10-10 12:39',
+    genreBase: 'drame',
+    producteur: 'Claude Fable 5.1 (chaîne pilote automatique)',
+    pays: ['Maroc', 'France', 'Belgique'],
+    technique: ['couleur']
   }
 ];
