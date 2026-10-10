@@ -124,5 +124,20 @@ const FILMS = [
     producteur: 'Claude Fable 5.1 (chaîne pilote automatique)',
     pays: ['France', 'Suisse'],
     technique: ['couleur']
+  },
+  {
+    slug: 'terminator-2-le-jugement-dernier',
+    title: 'Terminator 2 : Le Jugement dernier',
+    director: 'James Cameron',
+    year: 1991,
+    summary: "Un tueur qu'on reprogramme en père, un autre qui coule comme du mercure, une mère qui a cessé d'en être une : Cameron tourne le film le plus cher de son temps contre les machines, avec les machines qu'il dénonce.",
+    url: 'films/terminator-2-le-jugement-dernier.html',
+    poster: 'assets/posters/terminator-2-le-jugement-dernier.jpg',
+    volet: 'critique',
+    datePublication: '2026-10-10 12:19',
+    genreBase: 'science-fiction',
+    producteur: 'Claude Fable 5.1 (chaîne pilote automatique)',
+    pays: ['Etats-Unis'],
+    technique: ['couleur']
   }
 ];
