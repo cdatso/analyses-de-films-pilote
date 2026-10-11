@@ -162,6 +162,7 @@ const FILMS = [
     year: 1983,
     summary: "Deux Anglaises à soixante ans d'écart, le même pays, la même grossesse et un seul choix qui diffère : Ivory et Jhabvala font du Raj un instrument de mesure de ce qu'une femme peut décider de son corps.",
     url: 'films/chaleur-et-poussiere.html',
+    poster: 'assets/posters/chaleur-et-poussiere.jpg',
     volet: 'critique',
     datePublication: '2026-10-10 12:32',
     genreBase: 'drame',
