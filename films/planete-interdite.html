@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Un passé du futur — Planète interdite</title>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/mobilier.css">
+<link rel="stylesheet" href="../assets/pilote.css">
+<style>
+  :root{
+    /* Largeur du mobilier partagé, calée sur la colonne éditoriale de cette
+       page : 42rem moins deux marges de 1,4rem (box-sizing: border-box),
+       soit 39,2rem = 627,2 px ; formule de l'étape 3.1 :
+       (627,2 + 51,2) / 16 = 42,4rem. */
+    --mobilier-largeur:42.4rem;
+
+    /* Palette bespoke — le futur qu'on imaginait en 1956 : tôle chromée,
+       bleu de tableau de bord, orange des cadrans, vert de la planète.
+       Contrastes composés au-dessus de 4,5:1 pour tout texte courant. */
+    --aube:#eef0ee;
+    --aube-creuse:#dfe4e1;
+    --craie:#f4f7f5;
+    --encre:#14202a;
+    --encre-douce:#34434f;
+    --encre-pale:#56646e;
+    --bleu:#1f5a7a;
+    --orange:#c8651f;
+    --vert:#2d6b58;
+    --cadran:#f0a04b;
+    --espace:#0c1820;
+    --espace-claire:#17293a;
+    --filet:rgba(20,32,42,0.22);
+    --filet-tenu:rgba(20,32,42,0.11);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:var(--aube);
+    color:var(--encre);
+    font-family:var(--serif);
+    font-size:1.02rem;
+    line-height:1.74;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* Aucune règle `.wrap` ici : cette classe appartient au mobilier partagé. */
+
+  .back-link{
+    display:inline-block;
+    color:var(--encre-douce);
+    font-family:var(--mono);
+    font-size:0.66rem;
+    font-weight:500;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    text-decoration:none;
+    margin-bottom:1rem;
+  }
+  .back-link:hover{ color:var(--bleu); }
+
+  /* Le filet de cadran, en haut et en bas de la couverture. */
+  .filet{ height:0.3rem; background:linear-gradient(90deg, var(--cadran) 0 35%, var(--vert) 35% 100%); }
+
+  /* ---------- COUVERTURE — une console de nuit, sous une lune verte ---------- */
+  header.cover{
+    position:relative;
+    background:
+      radial-gradient(ellipse at 80% 0%, rgba(45,107,88,0.35), transparent 55%),
+      linear-gradient(to bottom, #0a1218 0%, var(--espace) 55%, var(--espace-claire) 100%);
+    color:#e9f1f4;
+    overflow:hidden;
+  }
+  .cover-in{ position:relative; z-index:2; max-width:42rem; margin:0 auto; padding:1.5rem 1.4rem 2.8rem; }
+
+  header.cover .back-link{ color:#cad8df; }
+  header.cover .back-link:hover{ color:var(--cadran); }
+
+  .etiquette{
+    display:flex; flex-wrap:wrap; gap:0.3rem 1.2rem;
+    font-family:var(--mono);
+    font-size:0.62rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--cadran);
+    margin-bottom:1.5rem;
+  }
+
+  h1.titre{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(2.1rem, 7vw, 3.15rem);
+    line-height:1.06;
+    letter-spacing:-0.022em;
+    margin:0 0 0.55rem;
+    color:#f4f9fa;
+  }
+  .titre-original{
+    font-family:var(--mono);
+    font-size:0.7rem;
+    letter-spacing:0.1em;
+    color:var(--cadran);
+    margin:0 0 1.2rem;
+  }
+  .sous-titre{
+    font-size:1.03rem;
+    line-height:1.62;
+    color:#e9f1f4;
+    margin:0 0 1.7rem;
+    max-width:34rem;
+  }
+
+  dl.identite{ margin:0; font-size:0.86rem; }
+  dl.identite > div{
+    display:flex; gap:0.7rem; padding:0.3rem 0;
+    border-bottom:1px solid rgba(233,241,244,0.18);
+  }
+  dl.identite dt{
+    flex:0 0 7.2rem;
+    font-family:var(--mono); font-size:0.64rem; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--cadran); padding-top:0.18rem;
+  }
+  dl.identite dd{ margin:0; color:#e9f1f4; }
+
+  /* Bloc affiche — écrit toujours (production v2.8, étape 4) ; le repli
+     onerror retire la figure si le fichier manque. */
+  .cover-media{ display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start; }
+  figure.poster{ margin:0; flex:0 0 12.4rem; max-width:100%; }
+  figure.poster img{
+    display:block; width:100%; height:auto;
+    border:1px solid rgba(240,160,75,0.45);
+    box-shadow:0 10px 26px rgba(0,0,0,0.6);
+  }
+  .cover-media dl.identite{ flex:1 1 15rem; min-width:13rem; }
+  @media (max-width:560px){
+    figure.poster{ flex:1 1 100%; max-width:15rem; }
+  }
+
+  .provenance{
+    margin-top:1.6rem; padding:0.75rem 0.95rem;
+    border-left:3px solid var(--orange);
+    /* Couple écrit en OPAQUE dans la même règle : le contrôle de contraste
+       lit les couples déclarés et ne résout pas l'alpha. */
+    background:#17293a;
+    color:#e3ebef;
+    font-family:var(--mono); font-size:0.68rem; line-height:1.62;
+  }
+
+  /* ---------- SOMMAIRE ---------- */
+  nav.toc{ border-bottom:1px solid var(--filet); background:var(--aube-creuse); color:var(--encre-douce); }
+  .toc-inner{
+    max-width:42rem; margin:0 auto; padding:0.85rem 1.4rem;
+    display:flex; flex-wrap:wrap; gap:0.35rem 1.1rem;
+  }
+  nav.toc a{
+    font-family:var(--mono); font-size:0.66rem; letter-spacing:0.06em;
+    text-transform:uppercase; color:var(--encre-douce); text-decoration:none;
+    border-bottom:1px solid transparent; padding-bottom:1px;
+  }
+  nav.toc a:hover{ color:var(--bleu); border-bottom-color:var(--bleu); }
+
+  /* ---------- CORPS — chaque section est une mi-temps ---------- */
+  main{ max-width:42rem; margin:0 auto; padding:2.4rem 1.4rem 1rem; }
+  section.block{ margin:0 0 2.7rem; }
+  .mitemps-head{
+    display:flex; gap:0.9rem; align-items:flex-start;
+    margin:0 0 0.9rem; padding-bottom:0.5rem;
+    border-bottom:2px solid var(--encre);
+  }
+  .mitemps{
+    flex:0 0 auto;
+    min-width:3.2rem;
+    padding:0.3rem 0.45rem 0.34rem;
+    background:var(--bleu);
+    color:var(--craie);
+    border-radius:0.15rem;
+    box-shadow:inset 0 -3px 0 var(--cadran);
+    font-family:var(--mono); font-size:0.58rem; line-height:1.3;
+    letter-spacing:0.08em; text-align:center; text-transform:uppercase;
+  }
+  .mitemps strong{ display:block; font-size:0.95rem; letter-spacing:0; }
+  section.block h2{
+    font-family:var(--serif); font-weight:600;
+    font-size:1.42rem; line-height:1.22; letter-spacing:-0.012em;
+    margin:0.1rem 0 0; color:var(--encre);
+  }
+  .mitemps-sous{ display:block; font-weight:400; font-size:0.93rem; color:var(--encre-pale); }
+  section.block h3{
+    font-family:var(--mono); font-weight:500; font-size:0.74rem;
+    letter-spacing:0.1em; text-transform:uppercase; color:var(--vert);
+    margin:1.6rem 0 0.5rem;
+  }
+  section.block p{ margin:0 0 1.05rem; color:var(--encre-douce); }
+  section.block p:last-child{ margin-bottom:0; }
+  em{ font-style:italic; }
+
+  a.renvoi{
+    font-family:var(--mono); font-size:0.66em; vertical-align:super;
+    text-decoration:none; color:var(--bleu); padding:0 0.06em;
+  }
+  a.renvoi:hover{ text-decoration:underline; }
+
+  .alerte{
+    margin:0 0 1.2rem; padding:0.6rem 0.9rem;
+    border:1px dashed var(--bleu);
+    font-family:var(--mono); font-size:0.7rem; letter-spacing:0.04em;
+    color:var(--encre-douce);
+  }
+  .discretion{
+    font-size:0.92rem; color:var(--encre-pale);
+    border-top:1px dashed var(--filet-tenu); padding-top:0.7rem;
+  }
+
+  /* ---------- SOURCES ---------- */
+  section.sources{ background:var(--espace); color:#e9f1f4; margin-top:2rem; }
+  .sources-inner{ max-width:42rem; margin:0 auto; padding:2.2rem 1.4rem 2.4rem; }
+  section.sources h2{
+    font-family:var(--serif); font-weight:600; font-size:1.3rem; margin:0.55rem 0 1.1rem; color:#f4f9fa;
+  }
+  ol.source-list{ margin:0; padding-left:1.3rem; font-size:0.88rem; line-height:1.7; }
+  ol.source-list li{ margin-bottom:0.55rem; color:#e9f1f4; }
+  ol.source-list a{ color:var(--cadran); word-break:break-word; }
+
+  footer.endnote{
+    max-width:42rem; margin:0 auto; padding:1.5rem 1.4rem 3rem;
+    font-family:var(--mono); font-size:0.66rem; line-height:1.8;
+    color:var(--encre-pale); text-align:center;
+  }
+  footer.endnote a{ color:var(--encre-douce); }
+
+  @media (max-width:560px){
+    .cover-in{ padding:1.2rem 1.2rem 2.4rem; }
+    dl.identite dt{ flex:0 0 6rem; }
+    .mitemps-head{ gap:0.7rem; }
+  }
+</style>
+</head>
+<body data-volet="critique">
+
+<div class="bandeau-pilote" role="note">
+  <p class="bandeau-in"><strong>Publication automatique, non relue.</strong> Cette page a été produite et mise en ligne par une chaîne d'essai, sans relecture humaine. Elle peut contenir des erreurs. Ce site ne fait pas partie du site <em>Analyses de films</em>.</p>
+</div>
+
+<header class="chrome">
+  <div class="chrome-in">
+    <a class="marque" href="../index.html">Analyses de films</a>
+    <nav class="menu" aria-label="Navigation principale">
+      <a href="../index.html">Accueil</a>
+      <a href="../critiques.html" aria-current="page">Critiques</a>
+      <a href="../etudes.html">&Eacute;tudes</a>
+      <a href="https://montage-parallele.cd-consulting-rd.be/qui-sommes-nous.html" rel="noopener">Montage Parall&egrave;le &#8599;</a>
+      <a href="../comment-ca-marche.html">Comment ce site fonctionne</a>
+      <a href="../demander-une-analyse.html">Demander une analyse</a>
+    </nav>
+  </div>
+</header>
+
+<header class="cover">
+  <div class="filet" aria-hidden="true"></div>
+  <div class="cover-in">
+    <a class="back-link lien-retour" href="../index.html">Retour aux analyses</a>
+    <div class="etiquette">
+      <span>Une planète lointaine</span>
+      <span>Un savant, sa fille, un robot</span>
+      <span>Metro-Goldwyn-Mayer, 1956</span>
+    </div>
+
+    <h1 class="titre">Planète interdite</h1>
+    <p class="titre-original">Forbidden Planet &mdash; Fred M. Wilcox &mdash; 1956</p>
+    <p class="sous-titre">Une civilisation disparue, un savant solitaire et une force née des rêves&nbsp;: la science-fiction de 1956 emprunte à Shakespeare la trame de <em>La Tempête</em>.</p>
+
+    <div class="cover-media">
+      <figure class="poster">
+        <img src="../assets/posters/planete-interdite.jpg"
+             alt="Affiche du film Planète interdite"
+             onerror="this.closest('.poster').remove()">
+      </figure>
+    <dl class="identite">
+      <div><dt>Réalisation</dt><dd>Fred M. Wilcox</dd></div>
+      <div><dt>Scénario</dt><dd>Cyril Hume, d'après une histoire d'Irving Block et Allen Adler</dd></div>
+      <div><dt>Année</dt><dd>1956</dd></div>
+      <div><dt>Durée</dt><dd>98 minutes</dd></div>
+      <div><dt>Musique</dt><dd>Louis et Bebe Barron, « tonalités électroniques »</dd></div>
+      <div><dt>Pays</dt><dd>États-Unis</dd></div>
+    </dl>
+    </div>
+
+    <div class="provenance">
+      <strong>Provenance.</strong> Analyse produite le 16 octobre 2026 par IAGen Claude d'Anthropic (Claude Haiku 5.5), <strong>chaîne pilote automatique, sans relecture humaine</strong> &mdash; surface d'essai, hors du corpus publié. Affiche&nbsp;: fonds d'affiches du propriétaire du site, fichier listé à l'index, commit 67e06a8. Les citations de sources en langue anglaise sont traduites en français par la rédaction, renvoi conservé.
+    </div>
+  </div>
+  <div class="filet" aria-hidden="true"></div>
+</header>
+
+<div class="mobilier-wrap" style="padding-top:1.6rem;">
+<div class="cartouche">
+  <span class="regime">R2 &mdash; Critique nouvelle</span>
+  <span class="signature">Analyse faite par IAGen Claude d'Anthropic (Claude Haiku 5.5, cha&icirc;ne pilote automatique, sans relecture humaine).</span>
+  <span class="date-pub">Publi&eacute;e le 16 octobre 2026</span>
+</div>
+</div>
+
+<nav class="toc" aria-label="Sommaire">
+  <div class="toc-inner">
+    <a href="#fiche">Fiche technique</a>
+    <a href="#synopsis">Synopsis</a>
+    <a href="#production">Production</a>
+    <a href="#structure">Structure</a>
+    <a href="#miseenscene">Mise en scène</a>
+    <a href="#personnages">Personnages</a>
+    <a href="#themes">Thèmes</a>
+    <a href="#reception">Réception</a>
+    <a href="#conclusion">Conclusion</a>
+    <a href="#sources">Sources</a>
+  </div>
+</nav>
+
+<main>
+
+  <section class="block" id="fiche">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>1</strong></span>
+      <h2>Fiche technique <span class="mitemps-sous">— l'équipe de bord</span></h2>
+    </div>
+    <p>
+      <em>Planète interdite</em> est réalisé par Fred M. Wilcox, produit par Nicholas Nayfack, pour la Metro-Goldwyn-Mayer<a class="renvoi" href="#src-1">[1]</a>. Wikidata le décrit comme un film de science-fiction de 1956 réalisé par Fred M. Wilcox, ce qui confirme l'identité du titre et du réalisateur<a class="renvoi" href="#src-3">[3]</a>. Le scénario est de Cyril Hume, d'après une histoire d'Irving Block et Allen Adler<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-4">[4]</a>.
+    </p>
+    <p>
+      Walter Pidgeon joue le docteur Edward Morbius, Anne Francis sa fille Altaira, Leslie Nielsen le commandant John J. Adams<a class="renvoi" href="#src-1">[1]</a>. Wikipédia en français indique que l'acteur qui porte le robot Robby n'est pas crédité<a class="renvoi" href="#src-2">[2]</a>. Le film est tourné en Eastmancolor et en CinemaScope<a class="renvoi" href="#src-1">[1]</a>. Il dure 98 minutes<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-2">[2]</a>.
+    </p>
+    <p>
+      Wikipédia en français signale que le film a été sélectionné en 2013 par le National Film Registry de la Bibliothèque du Congrès, qui le juge «&nbsp;culturellement, historiquement ou esthétiquement important&nbsp;»<a class="renvoi" href="#src-2">[2]</a>.
+    </p>
+  </section>
+
+  <section class="block" id="synopsis">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>2</strong></span>
+      <h2>Synopsis <span class="mitemps-sous">— un savant et une force</span></h2>
+    </div>
+    <p>
+      Les personnages principaux sont le savant Morbius, sa fille Altaira, le commandant Adams et le robot Robby<a class="renvoi" href="#src-1">[1]</a>. Une force invisible s'en prend aux hommes, et Morbius révèle peu à peu les effets dévastateurs de l'orgueil des Krells, une civilisation disparue, sur leur propre civilisation<a class="renvoi" href="#src-4">[4]</a><a class="renvoi" href="#src-2">[2]</a>.
+    </p>
+    <p>
+      Wikipédia en français établit la correspondance avec <em>La Tempête</em>&nbsp;: Morbius, Robby et le monstre invisible répondent à Prospero, Ariel et Caliban<a class="renvoi" href="#src-2">[2]</a>.
+    </p>
+  </section>
+
+  <section class="block" id="production">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>3</strong></span>
+      <h2>Contexte de production <span class="mitemps-sous">— une musique sans orchestre</span></h2>
+    </div>
+    <p>
+      Le film a un budget de 1,9 million de dollars, pour des recettes de 2,7 millions selon la page anglaise<a class="renvoi" href="#src-1">[1]</a>. La partition est signée par Bebe et Louis Barron, créditée comme «&nbsp;tonalités électroniques&nbsp;», à cause des différends avec le syndicat des musiciens<a class="renvoi" href="#src-1">[1]</a>. Wikipédia en français en fait «&nbsp;la première bande originale de film n'utilisant que des sources électroniques&nbsp;»<a class="renvoi" href="#src-2">[2]</a>.
+    </p>
+    <p>
+      Rapprochement d'analyse, non de source&nbsp;: la contrainte syndicale devient une esthétique. La musique du film est le premier élément de son futur, et c'est sans doute ce qui le date le moins.
+    </p>
+  </section>
+
+  <section class="block" id="structure">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>4</strong></span>
+      <h2>Structure narrative <span class="mitemps-sous">— la tempête transposée</span></h2>
+    </div>
+    <p>
+      Philippe Rocher, dans <em>Critikat</em>, rappelle que les scénaristes ont «&nbsp;transposé, sinon adapté&nbsp;» <em>La Tempête</em>, et que le récit reprend les codes d'une fable philosophique «&nbsp;en puisant à la source des grands classiques&nbsp;»<a class="renvoi" href="#src-4">[4]</a>. La page anglaise parle d'une adaptation libre, dont les personnages et le décor isolé rappellent la pièce<a class="renvoi" href="#src-1">[1]</a>.
+    </p>
+  </section>
+
+  <section class="block" id="miseenscene">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>5</strong></span>
+      <h2>Mise en scène et procédés <span class="mitemps-sous">— les gadgets et les sons</span></h2>
+    </div>
+    <p>
+      Le film est un spectacle de moyens. <em>Variety</em> en retient des «&nbsp;gadgets imaginatifs à foison, et beaucoup de suspense et de frissons&nbsp;»<a class="renvoi" href="#src-1">[1]</a>. Le film est tourné en Eastmancolor et en CinemaScope, ce qui donne à la planète une étendue visuelle<a class="renvoi" href="#src-1">[1]</a>.
+    </p>
+    <p>
+      Rapprochement d'analyse, non de source&nbsp;: la musique électronique fait le travail du décor. Ce qui se passe sur la planète se lit par ses sons, et non par des bruits de machine décrits à l'image.
+    </p>
+  </section>
+
+  <section class="block" id="personnages">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>6</strong></span>
+      <h2>Personnages principaux <span class="mitemps-sous">— le philologue, le robot</span></h2>
+    </div>
+    <h3>Morbius (Walter Pidgeon)</h3>
+    <p>
+      Rocher décrit Morbius comme un «&nbsp;savant philologue&nbsp;»<a class="renvoi" href="#src-4">[4]</a>. Il évoque aussi «&nbsp;une terrible force destructrice, qui ne peut naître que des rêves&nbsp;»<a class="renvoi" href="#src-4">[4]</a>.
+    </p>
+    <h3>Robby le robot</h3>
+    <p>
+      Le critique David Q., sur <em>SciFi-Universe</em>, juge Robby «&nbsp;un personnage à part entière&nbsp;»<a class="renvoi" href="#src-5">[5]</a>. Un autre, Emmanuel G., parle de «&nbsp;son robot pataud, l'innéfable Robby, est devenu une référence incontournable&nbsp;»<a class="renvoi" href="#src-5">[5]</a>.
+    </p>
+  </section>
+
+  <section class="block" id="themes">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>7</strong></span>
+      <h2>Thèmes <span class="mitemps-sous">— un passé du futur</span></h2>
+    </div>
+
+    <h3>Le futur d'hier</h3>
+    <p>
+      Rocher écrit que revoir le film, c'est faire «&nbsp;une plongée dans le passé d'un futur&nbsp;», tel qu'on l'imaginait au lendemain de la Seconde Guerre mondiale<a class="renvoi" href="#src-4">[4]</a>. Le scénario fait pencher ce passé vers «&nbsp;un certain pessimisme&nbsp;»<a class="renvoi" href="#src-4">[4]</a>.
+    </p>
+
+    <h3>L'orgueil</h3>
+    <p>
+      Morbius révèle peu à peu les effets de l'orgueil des Krells sur leur propre civilisation<a class="renvoi" href="#src-4">[4]</a>. Rapprochement d'analyse, non de source&nbsp;: le film dit moins la peur de l'inconnu que celle de ce qu'un esprit peut produire quand il n'a plus de limites.
+    </p>
+  </section>
+
+  <section class="block" id="reception">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>8</strong></span>
+      <h2>Réception critique et postérité <span class="mitemps-sous">— les années 1950 et la suite</span></h2>
+    </div>
+    <p>
+      Bosley Crowther, dans le <em>New York Times</em>, écrit que tout le monde s'y amuse beaucoup<a class="renvoi" href="#src-1">[1]</a>. Pauline Kael y voit «&nbsp;la meilleure des productions interstellaires de science-fiction des années 1950&nbsp;»<a class="renvoi" href="#src-1">[1]</a>. La page anglaise compte 93&nbsp;% d'avis favorables sur 54 critiques à Rotten Tomatoes<a class="renvoi" href="#src-1">[1]</a>.
+    </p>
+    <p>
+      Sur <em>SciFi-Universe</em>, un critique du staff, Nicolas L., le tient pour «&nbsp;l'une des pierres angulaires du cinéma de science-fiction&nbsp;»<a class="renvoi" href="#src-5">[5]</a>. David Q. va plus loin&nbsp;: le film «&nbsp;pourrait très bien faire figure de prologue à un épisode de <em>Star Trek</em>&nbsp;»<a class="renvoi" href="#src-5">[5]</a>.
+    </p>
+    <p class="discretion">
+      <strong>Ce qui n'a pas pu être vérifié.</strong> Les critiques de Crowther, de <em>Variety</em> et de Kael sont relayées par Wikipédia en anglais, non lues dans l'original. La date de sortie diverge&nbsp;: 2 mars 1956 pour la première de Charlotte et 23 mars pour l'ouverture nationale selon la page anglaise, 15 mars 1956 selon la page française<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-2">[2]</a>. Le nom de l'acteur de Robby, donné par Wikipédia en français, n'a pas été recoupé.
+    </p>
+  </section>
+
+  <section class="block" id="conclusion">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>9</strong></span>
+      <h2>Conclusion <span class="mitemps-sous">— le futur qui se regarde</span></h2>
+    </div>
+    <p>
+      Ce qui fait la valeur de <em>Planète interdite</em>, c'est son décalage&nbsp;: le futur y est une image de 1956, et Rocher lit ce décalage comme une forme de pessimisme<a class="renvoi" href="#src-4">[4]</a>. Le film a traversé les décennies comme une référence, et c'est la leçon que les critiques du staff de SciFi-Universe en tirent, avec la comparaison à <em>Star Trek</em><a class="renvoi" href="#src-5">[5]</a>.
+    </p>
+    <p>
+      Rapprochement d'analyse, non de source&nbsp;: un film qui parle des limites du savoir, tourné avec les outils de son temps, se regarde aujourd'hui comme un document autant que comme une fiction.
+    </p>
+  </section>
+
+</main>
+
+<section class="sources" id="sources">
+  <div class="sources-inner">
+    <span class="meta-label" style="color:#f0a04b;">Sources consultées</span>
+    <h2>Le journal de bord</h2>
+    <ol class="source-list">
+      <li id="src-1">Wikipédia (EN), « Forbidden Planet » — <a href="https://en.wikipedia.org/wiki/Forbidden_Planet" target="_blank" rel="noopener">en.wikipedia.org &mdash; Forbidden Planet</a></li>
+      <li id="src-2">Wikipédia (FR), « Planète interdite » — <a href="https://fr.wikipedia.org/wiki/Plan%C3%A8te_interdite" target="_blank" rel="noopener">fr.wikipedia.org &mdash; Planète interdite</a></li>
+      <li id="src-3">Wikidata, élément Q1331230 — <a href="https://www.wikidata.org/wiki/Q1331230" target="_blank" rel="noopener">wikidata.org/wiki/Q1331230</a></li>
+      <li id="src-4">Philippe Rocher, « Le passé du futur », <em>Critikat</em>, 26 septembre 2006 — <a href="https://www.critikat.com/actualite-cinema/critique/planete-interdite/" target="_blank" rel="noopener">critikat.com &mdash; Planète interdite</a></li>
+      <li id="src-5">Critiques du staff et avis de la communauté, <em>SciFi-Universe</em> — <a href="https://www.scifi-universe.com/films/178/planete-interdite/critiques" target="_blank" rel="noopener">scifi-universe.com &mdash; Planète interdite, critiques</a></li>
+    </ol>
+  </div>
+</section>
+
+<footer class="endnote">
+  Analyse compilée à partir de sources publiques consultées le 16 octobre 2026 — usage éditorial non commercial
+  <br><a href="../index.html">Retour aux analyses</a>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var id = this.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        e.stopPropagation();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+});
+</script>
+
+</body>
+</html>

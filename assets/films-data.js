@@ -214,5 +214,20 @@ const FILMS = [
     producteur: 'Claude Haiku 5.5 (chaîne pilote automatique)',
     pays: ['Hongrie'],
     technique: ['couleur']
+  },
+  {
+    slug: 'planete-interdite',
+    title: 'Planète interdite',
+    director: 'Fred M. Wilcox',
+    year: 1956,
+    summary: "Un savant, sa fille et un robot vivent sur une planète où une force née des rêves frappe les hommes : Wilcox transpose La Tempête dans l'espace.",
+    url: 'films/planete-interdite.html',
+    poster: 'assets/posters/planete-interdite.jpg',
+    volet: 'critique',
+    datePublication: '2026-10-16 18:02',
+    genreBase: 'science-fiction',
+    producteur: 'Claude Haiku 5.5 (chaîne pilote automatique)',
+    pays: ['Etats-Unis'],
+    technique: ['couleur']
   }
 ];
