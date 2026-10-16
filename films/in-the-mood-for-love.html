@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Une retenue qui se laisse voir — In the Mood for Love</title>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/mobilier.css">
+<link rel="stylesheet" href="../assets/pilote.css">
+<style>
+  :root{
+    /* Largeur du mobilier partagé, calée sur la colonne éditoriale de cette
+       page : 42rem moins deux marges de 1,4rem (box-sizing: border-box),
+       soit 39,2rem = 627,2 px ; formule de l'étape 3.1 :
+       (627,2 + 51,2) / 16 = 42,4rem. */
+    --mobilier-largeur:42.4rem;
+
+    /* Palette bespoke — Hong Kong, 1962 : papier de riz, laque rouge des
+       portes, jade des rideaux, or des enseignes. Contrastes composés au-dessus
+       de 4,5:1 pour tout texte courant. */
+    --papier:#f2ebe1;
+    --papier-creux:#e8dccb;
+    --craie:#f7f0e6;
+    --encre:#2b1d20;
+    --encre-douce:#4a3538;
+    --encre-pale:#6b5558;
+    --laque:#8e2430;
+    --jade:#2f5e52;
+    --or:#c9a15a;
+    --nuit:#1b1416;
+    --nuit-claire:#2a1f22;
+    --filet:rgba(43,29,32,0.22);
+    --filet-tenu:rgba(43,29,32,0.11);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:var(--papier);
+    color:var(--encre);
+    font-family:var(--serif);
+    font-size:1.02rem;
+    line-height:1.74;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* Aucune règle `.wrap` ici : cette classe appartient au mobilier partagé. */
+
+  .back-link{
+    display:inline-block;
+    color:var(--encre-douce);
+    font-family:var(--mono);
+    font-size:0.66rem;
+    font-weight:500;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    text-decoration:none;
+    margin-bottom:1rem;
+  }
+  .back-link:hover{ color:var(--laque); }
+
+  /* Le filet de laque, en haut et en bas de la couverture. */
+  .filet{
+    height:0.4rem;
+    background:linear-gradient(90deg, var(--laque) 0 60%, var(--or) 60% 100%);
+  }
+
+  /* ---------- COUVERTURE — un couloir de nuit, portes rouges ---------- */
+  header.cover{
+    position:relative;
+    background:
+      repeating-linear-gradient(90deg, rgba(201,161,90,0.05) 0 1px, transparent 1px 3.6rem),
+      radial-gradient(ellipse at 30% 0%, rgba(142,36,48,0.42), transparent 55%),
+      linear-gradient(to bottom, #120e10 0%, var(--nuit) 55%, var(--nuit-claire) 100%);
+    color:#f4ece1;
+    overflow:hidden;
+  }
+  .cover-in{ position:relative; z-index:2; max-width:42rem; margin:0 auto; padding:1.5rem 1.4rem 2.8rem; }
+
+  header.cover .back-link{ color:#d9cfc0; }
+  header.cover .back-link:hover{ color:var(--or); }
+
+  .etiquette{
+    display:flex; flex-wrap:wrap; gap:0.3rem 1.2rem;
+    font-family:var(--mono);
+    font-size:0.62rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--or);
+    margin-bottom:1.5rem;
+  }
+
+  h1.titre{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(2.1rem, 7vw, 3.15rem);
+    line-height:1.06;
+    letter-spacing:-0.022em;
+    margin:0 0 0.55rem;
+    color:#f8f3ea;
+  }
+  .titre-original{
+    font-family:var(--mono);
+    font-size:0.7rem;
+    letter-spacing:0.1em;
+    color:var(--or);
+    margin:0 0 1.2rem;
+  }
+  .sous-titre{
+    font-size:1.03rem;
+    line-height:1.62;
+    color:#f4ece1;
+    margin:0 0 1.7rem;
+    max-width:34rem;
+  }
+
+  dl.identite{ margin:0; font-size:0.86rem; }
+  dl.identite > div{
+    display:flex; gap:0.7rem; padding:0.3rem 0;
+    border-bottom:1px solid rgba(244,236,225,0.18);
+  }
+  dl.identite dt{
+    flex:0 0 7.2rem;
+    font-family:var(--mono); font-size:0.64rem; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--or); padding-top:0.18rem;
+  }
+  dl.identite dd{ margin:0; color:#f4ece1; }
+
+  /* Bloc affiche — écrit toujours (production v2.8, étape 4) ; le repli
+     onerror retire la figure si le fichier manque. */
+  .cover-media{ display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start; }
+  figure.poster{ margin:0; flex:0 0 12.4rem; max-width:100%; }
+  figure.poster img{
+    display:block; width:100%; height:auto;
+    border:1px solid rgba(201,161,90,0.45);
+    box-shadow:0 10px 26px rgba(0,0,0,0.6);
+  }
+  .cover-media dl.identite{ flex:1 1 15rem; min-width:13rem; }
+  @media (max-width:560px){
+    figure.poster{ flex:1 1 100%; max-width:15rem; }
+  }
+
+  .provenance{
+    margin-top:1.6rem; padding:0.75rem 0.95rem;
+    border-left:3px solid var(--laque);
+    /* Couple écrit en OPAQUE dans la même règle : le contrôle de contraste
+       lit les couples déclarés et ne résout pas l'alpha. */
+    background:#2a1f22;
+    color:#efe7d8;
+    font-family:var(--mono); font-size:0.68rem; line-height:1.62;
+  }
+
+  /* ---------- SOMMAIRE ---------- */
+  nav.toc{ border-bottom:1px solid var(--filet); background:var(--papier-creux); color:var(--encre-douce); }
+  .toc-inner{
+    max-width:42rem; margin:0 auto; padding:0.85rem 1.4rem;
+    display:flex; flex-wrap:wrap; gap:0.35rem 1.1rem;
+  }
+  nav.toc a{
+    font-family:var(--mono); font-size:0.66rem; letter-spacing:0.06em;
+    text-transform:uppercase; color:var(--encre-douce); text-decoration:none;
+    border-bottom:1px solid transparent; padding-bottom:1px;
+  }
+  nav.toc a:hover{ color:var(--laque); border-bottom-color:var(--laque); }
+
+  /* ---------- CORPS — chaque section est une mi-temps ---------- */
+  main{ max-width:42rem; margin:0 auto; padding:2.4rem 1.4rem 1rem; }
+  section.block{ margin:0 0 2.7rem; }
+  .mitemps-head{
+    display:flex; gap:0.9rem; align-items:flex-start;
+    margin:0 0 0.9rem; padding-bottom:0.5rem;
+    border-bottom:2px solid var(--encre);
+  }
+  .mitemps{
+    flex:0 0 auto;
+    min-width:3.2rem;
+    padding:0.3rem 0.45rem 0.34rem;
+    background:var(--jade);
+    color:var(--craie);
+    border-radius:0.15rem;
+    box-shadow:inset 0 -3px 0 var(--or);
+    font-family:var(--mono); font-size:0.58rem; line-height:1.3;
+    letter-spacing:0.08em; text-align:center; text-transform:uppercase;
+  }
+  .mitemps strong{ display:block; font-size:0.95rem; letter-spacing:0; }
+  section.block h2{
+    font-family:var(--serif); font-weight:600;
+    font-size:1.42rem; line-height:1.22; letter-spacing:-0.012em;
+    margin:0.1rem 0 0; color:var(--encre);
+  }
+  .mitemps-sous{ display:block; font-weight:400; font-size:0.93rem; color:var(--encre-pale); }
+  section.block h3{
+    font-family:var(--mono); font-weight:500; font-size:0.74rem;
+    letter-spacing:0.1em; text-transform:uppercase; color:var(--laque);
+    margin:1.6rem 0 0.5rem;
+  }
+  section.block p{ margin:0 0 1.05rem; color:var(--encre-douce); }
+  section.block p:last-child{ margin-bottom:0; }
+  em{ font-style:italic; }
+
+  a.renvoi{
+    font-family:var(--mono); font-size:0.66em; vertical-align:super;
+    text-decoration:none; color:var(--laque); padding:0 0.06em;
+  }
+  a.renvoi:hover{ text-decoration:underline; }
+
+  .alerte{
+    margin:0 0 1.2rem; padding:0.6rem 0.9rem;
+    border:1px dashed var(--laque);
+    font-family:var(--mono); font-size:0.7rem; letter-spacing:0.04em;
+    color:var(--encre-douce);
+  }
+  .discretion{
+    font-size:0.92rem; color:var(--encre-pale);
+    border-top:1px dashed var(--filet-tenu); padding-top:0.7rem;
+  }
+
+  /* ---------- SOURCES ---------- */
+  section.sources{ background:var(--nuit); color:#f4ece1; margin-top:2rem; }
+  .sources-inner{ max-width:42rem; margin:0 auto; padding:2.2rem 1.4rem 2.4rem; }
+  section.sources h2{
+    font-family:var(--serif); font-weight:600; font-size:1.3rem; margin:0.55rem 0 1.1rem; color:#f8f3ea;
+  }
+  ol.source-list{ margin:0; padding-left:1.3rem; font-size:0.88rem; line-height:1.7; }
+  ol.source-list li{ margin-bottom:0.55rem; color:#f4ece1; }
+  ol.source-list a{ color:var(--or); word-break:break-word; }
+
+  footer.endnote{
+    max-width:42rem; margin:0 auto; padding:1.5rem 1.4rem 3rem;
+    font-family:var(--mono); font-size:0.66rem; line-height:1.8;
+    color:var(--encre-pale); text-align:center;
+  }
+  footer.endnote a{ color:var(--encre-douce); }
+
+  @media (max-width:560px){
+    .cover-in{ padding:1.2rem 1.2rem 2.4rem; }
+    dl.identite dt{ flex:0 0 6rem; }
+    .mitemps-head{ gap:0.7rem; }
+  }
+</style>
+</head>
+<body data-volet="critique">
+
+<div class="bandeau-pilote" role="note">
+  <p class="bandeau-in"><strong>Publication automatique, non relue.</strong> Cette page a été produite et mise en ligne par une chaîne d'essai, sans relecture humaine. Elle peut contenir des erreurs. Ce site ne fait pas partie du site <em>Analyses de films</em>.</p>
+</div>
+
+<header class="chrome">
+  <div class="chrome-in">
+    <a class="marque" href="../index.html">Analyses de films</a>
+    <nav class="menu" aria-label="Navigation principale">
+      <a href="../index.html">Accueil</a>
+      <a href="../critiques.html" aria-current="page">Critiques</a>
+      <a href="../etudes.html">&Eacute;tudes</a>
+      <a href="https://montage-parallele.cd-consulting-rd.be/qui-sommes-nous.html" rel="noopener">Montage Parall&egrave;le &#8599;</a>
+      <a href="../comment-ca-marche.html">Comment ce site fonctionne</a>
+      <a href="../demander-une-analyse.html">Demander une analyse</a>
+    </nav>
+  </div>
+</header>
+
+<header class="cover">
+  <div class="filet" aria-hidden="true"></div>
+  <div class="cover-in">
+    <a class="back-link lien-retour" href="../index.html">Retour aux analyses</a>
+    <div class="etiquette">
+      <span>Hong Kong, 1962</span>
+      <span>Deux voisins</span>
+      <span>Cannes, mai 2000</span>
+    </div>
+
+    <h1 class="titre">In the Mood for Love</h1>
+    <p class="titre-original">In the Mood for Love &mdash; Wong Kar-wai &mdash; 2000</p>
+    <p class="sous-titre">À Hong Kong en 1962, deux voisins découvrent que leurs conjoints se voient&nbsp;: Wong Kar-wai filme la lente naissance de leur lien, et fait de la retenue la forme même de son film.</p>
+
+    <div class="cover-media">
+      <figure class="poster">
+        <img src="../assets/posters/in-the-mood-for-love.jpg"
+             alt="Affiche du film In the Mood for Love"
+             onerror="this.closest('.poster').remove()">
+      </figure>
+    <dl class="identite">
+      <div><dt>Réalisation</dt><dd>Wong Kar-wai</dd></div>
+      <div><dt>Scénario</dt><dd>Wong Kar-wai</dd></div>
+      <div><dt>Année</dt><dd>2000</dd></div>
+      <div><dt>Durée</dt><dd>98 minutes</dd></div>
+      <div><dt>Image</dt><dd>Christopher Doyle et Mark Lee Ping-bin &mdash; couleur</dd></div>
+      <div><dt>Pays</dt><dd>Hong Kong, France</dd></div>
+    </dl>
+    </div>
+
+    <div class="provenance">
+      <strong>Provenance.</strong> Analyse produite le 16 octobre 2026 par IAGen Claude d'Anthropic (Claude Haiku 5.5), <strong>chaîne pilote automatique, sans relecture humaine</strong> &mdash; surface d'essai, hors du corpus publié. Affiche&nbsp;: fonds d'affiches du propriétaire du site, fichier listé à l'index, commit 67e06a8. Les citations de sources en langue anglaise sont traduites en français par la rédaction, renvoi conservé.
+    </div>
+  </div>
+  <div class="filet" aria-hidden="true"></div>
+</header>
+
+<div class="mobilier-wrap" style="padding-top:1.6rem;">
+<div class="cartouche">
+  <span class="regime">R2 &mdash; Critique nouvelle</span>
+  <span class="signature">Analyse faite par IAGen Claude d'Anthropic (Claude Haiku 5.5, cha&icirc;ne pilote automatique, sans relecture humaine).</span>
+  <span class="date-pub">Publi&eacute;e le 16 octobre 2026</span>
+</div>
+</div>
+
+<nav class="toc" aria-label="Sommaire">
+  <div class="toc-inner">
+    <a href="#fiche">Fiche technique</a>
+    <a href="#synopsis">Synopsis</a>
+    <a href="#production">Production</a>
+    <a href="#structure">Structure</a>
+    <a href="#miseenscene">Mise en scène</a>
+    <a href="#personnages">Personnages</a>
+    <a href="#themes">Thèmes</a>
+    <a href="#reception">Réception</a>
+    <a href="#conclusion">Conclusion</a>
+    <a href="#sources">Sources</a>
+  </div>
+</nav>
+
+<main>
+
+  <section class="block" id="fiche">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>1</strong></span>
+      <h2>Fiche technique <span class="mitemps-sous">— une chambre, deux voisins</span></h2>
+    </div>
+    <p>
+      <em>In the Mood for Love</em> est écrit, réalisé et produit par Wong Kar-wai<a class="renvoi" href="#src-1">[1]</a>. L'identité du film est confirmée par Wikidata, qui le décrit comme un film de 2000 réalisé par Wong Kar-wai<a class="renvoi" href="#src-2">[2]</a>. Christopher Doyle en assure l'image, crédité à égalité avec Mark Lee Ping-bin, qui le remplace en cours de tournage<a class="renvoi" href="#src-1">[1]</a>. Tony Leung Chiu-wai joue Chow Mo-wan, Maggie Cheung Su Li-zhen, dite «&nbsp;Mme&nbsp;Chan&nbsp;»<a class="renvoi" href="#src-1">[1]</a>. Le film dure 98 minutes<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-5">[5]</a>.
+    </p>
+    <p>
+      La coproduction est donnée comme hongkongaise et française par Wikipédia<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-5">[5]</a>. Universalis la décrit comme franco-thaïlando-hongkongaise<a class="renvoi" href="#src-3">[3]</a>&nbsp;: divergence relevée plus bas, cette page suit les deux encyclopédies en ligne et la fiche de Wikipédia.
+    </p>
+  </section>
+
+  <section class="block" id="synopsis">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>2</strong></span>
+      <h2>Synopsis <span class="mitemps-sous">— Hong Kong, 1962</span></h2>
+    </div>
+    <p>
+      Deux voisins, Chow Mo-wan et Su Li-zhen, emménagent le même jour dans des appartements voisins<a class="renvoi" href="#src-4">[4]</a>. Leurs rencontres sont formelles et polies, jusqu'à ce qu'une découverte sur leurs conjoints crée entre eux un lien intime<a class="renvoi" href="#src-4">[4]</a>. Ils se rapprochent en résistant à la tentation d'agir comme leurs conjoints<a class="renvoi" href="#src-5">[5]</a>.
+    </p>
+    <p>
+      Le film tient tout entier dans cet écart&nbsp;: le fait est connu de ses personnages avant de l'être du spectateur, et ce qu'ils ne se disent pas occupe plus de place que ce qu'ils se disent. Rapprochement d'analyse, non de source.
+    </p>
+  </section>
+
+  <section class="block" id="production">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>3</strong></span>
+      <h2>Contexte de production <span class="mitemps-sous">— trois titres, quinze mois</span></h2>
+    </div>
+    <p>
+      Le projet a une longue gestation&nbsp;: il s'intitule d'abord <em>Summer in Beijing</em>, devient <em>A Story of Food</em>, puis <em>In the Mood for Love</em> après le déplacement de l'histoire dans le Hong Kong des années 1960<a class="renvoi" href="#src-1">[1]</a>. Wong envisage aussi le titre <em>Secrets</em>, avant de retenir le titre anglais après avoir entendu une chanson de Bryan Ferry<a class="renvoi" href="#src-1">[1]</a>. Le tournage dure quinze mois<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-3">[3]</a>.
+    </p>
+    <p>
+      Universalis précise que le tournage devait avoir lieu à Pékin et s'est déroulé à Macao&nbsp;: Wong ne pouvait satisfaire les exigences de la bureaucratie chinoise, n'ayant pas de scénario préalable<a class="renvoi" href="#src-3">[3]</a>. Christopher Doyle quitte la production quand le tournage dépasse le calendrier, et Mark Lee Ping-bin le remplace<a class="renvoi" href="#src-1">[1]</a>. La page anglaise dit que ce départ ne tient pas à de grands désaccords artistiques avec Wong, mais que Doyle trouvait frustrantes les reprises répétées<a class="renvoi" href="#src-1">[1]</a>.
+    </p>
+  </section>
+
+  <section class="block" id="structure">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>4</strong></span>
+      <h2>Structure narrative <span class="mitemps-sous">— le récit par la cadence</span></h2>
+    </div>
+    <p>
+      Le film avance par rencontres répétées plutôt que par événements&nbsp;: c'est sa cadence qui fait le récit. Criterion le décrit comme à la fois «&nbsp;délicatement maniéré et visuellement extravagant&nbsp;»<a class="renvoi" href="#src-4">[4]</a>. Rapprochement d'analyse, non de source&nbsp;: la retenue des échanges, qui sont «&nbsp;formels et polis&nbsp;», n'est pas un obstacle au récit, elle en est le matériau.
+    </p>
+    <p>
+      Rapprochement d'analyse, non de source&nbsp;: la reprise d'un même geste d'un plan à l'autre ne fait guère avancer l'intrigue, elle fait avancer le sentiment, et c'est en ce sens que le récit se mesure à sa cadence.
+    </p>
+  </section>
+
+  <section class="block" id="miseenscene">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>5</strong></span>
+      <h2>Mise en scène et procédés <span class="mitemps-sous">— la photographie comme sentiment</span></h2>
+    </div>
+    <p>
+      La bande-son et la photographie font le travail que le dialogue laisse en suspens. Criterion parle d'une «&nbsp;bande-son poignante&nbsp;» et d'une photographie de Doyle et Mark Lee Ping-bin d'une «&nbsp;abstraction exquise&nbsp;»<a class="renvoi" href="#src-4">[4]</a>. Mitchell, dans le <em>New York Times</em>, le trouve «&nbsp;probablement le plus éblouissamment beau film de l'année&nbsp;»<a class="renvoi" href="#src-1">[1]</a>.
+    </p>
+    <p>
+      La musique est un montage de répertoires&nbsp;: le thème de Shigeru Umebayashi, issu de la bande originale de <em>Yumeji</em> de Seijun Suzuki, des chansons de Nat King Cole, dont «&nbsp;Aquellos ojos verdes&nbsp;», et la chanson-titre de Zhou Xuan, de 1946<a class="renvoi" href="#src-1">[1]</a>. Wikipédia lit cette chanson comme une métaphore oblique de l'obscurité de Shanghai occupée par le Japon<a class="renvoi" href="#src-1">[1]</a>. Rapprochement d'analyse&nbsp;: cette musique du passé mêle à Hong Kong des airs qui ne sont pas de là, et le film en fait une mémoire commune à ses personnages.
+    </p>
+  </section>
+
+  <section class="block" id="personnages">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>6</strong></span>
+      <h2>Personnages principaux <span class="mitemps-sous">— deux voisins, deux conjoints absents</span></h2>
+    </div>
+    <h3>Chow Mo-wan (Tony Leung Chiu-wai)</h3>
+    <p>
+      Tony Leung reçoit le prix d'interprétation masculine au Festival de Cannes 2000, premier acteur de Hong Kong à recevoir cette récompense<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-5">[5]</a>. Rapprochement d'analyse, non de source&nbsp;: le prix récompense une interprétation faite de retenue, et c'est ce qui rend le personnage lisible sans qu'il explique son attitude.
+    </p>
+    <h3>Su Li-zhen, «&nbsp;Mme&nbsp;Chan&nbsp;» (Maggie Cheung)</h3>
+    <p>
+      Maggie Cheung incarne Su Li-zhen, la voisine<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-4">[4]</a>. Rapprochement d'analyse, non de source&nbsp;: les deux personnages sont tenus à la même distance, et c'est la symétrie de leur situation, plus que leur psychologie, que le récit met en avant.
+    </p>
+  </section>
+
+  <section class="block" id="themes">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>7</strong></span>
+      <h2>Thèmes <span class="mitemps-sous">— la tentation et le refus</span></h2>
+    </div>
+
+    <h3>Faire comme l'autre</h3>
+    <p>
+      Le noyau du film est la tentation de se conduire comme le conjoint qui trahit<a class="renvoi" href="#src-5">[5]</a>. Les deux voisins résistent, et ce refus est ce qui les lie. Rapprochement d'analyse, non de source&nbsp;: la liaison des conjoints est un fait hors champ, et c'est l'absence de la preuve, plus que la preuve, qui structure le film.
+    </p>
+
+    <h3>Le secret et le temps</h3>
+    <p>
+      Wong a longtemps pensé à <em>Secrets</em> comme titre<a class="renvoi" href="#src-1">[1]</a>. Rapprochement d'analyse, non de source&nbsp;: le titre finalement retenu nomme une disposition amoureuse sans la montrer, et le secret, qui est le titre provisoire, reste inscrit dans la structure du film.
+    </p>
+  </section>
+
+  <section class="block" id="reception">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>8</strong></span>
+      <h2>Réception critique et postérité <span class="mitemps-sous">— Cannes, les classements, l'influence</span></h2>
+    </div>
+    <p>
+      Présenté en compétition officielle à Cannes, le film reçoit le prix d'interprétation masculine pour Tony Leung, un prix technique partagé entre Christopher Doyle, Mark Lee Ping-bin et William Chang, et une nomination à la Palme d'or pour Wong Kar-wai<a class="renvoi" href="#src-1">[1]</a>. Il sort à Cannes le 20 mai 2000, à Hong Kong le 29 septembre, en France le 8 novembre 2000<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-5">[5]</a>. Universalis cite un César du meilleur film étranger en 2001<a class="renvoi" href="#src-3">[3]</a>.
+    </p>
+    <p>
+      Roger Ebert, dans le <em>Chicago Sun-Times</em>, lui donne trois étoiles sur quatre et y voit «&nbsp;une histoire luxuriante d'amour non partagé&nbsp;»<a class="renvoi" href="#src-1">[1]</a>. Peter Travers, dans <em>Rolling Stone</em>, écrit qu'«&nbsp;entre les mains d'un tâcheron, <em>In the Mood for Love</em> aurait pu être une farce sexuelle grivoise&nbsp;»<a class="renvoi" href="#src-1">[1]</a>. Ces deux citations sont rapportées par la page Wikipédia, non lues dans l'original.
+    </p>
+    <p>
+      Sur la durée, le film entre dans les classements&nbsp;: deuxième des 100 meilleurs films du XXIᵉ siècle pour la BBC en 2016, derrière <em>Mulholland Drive</em><a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-5">[5]</a>, cinquième du sondage décennal de <em>Sight and Sound</em> en 2022, le plus haut rang d'un film des années 2000 et d'un cinéaste chinois<a class="renvoi" href="#src-1">[1]</a>. Criterion le dit «&nbsp;une influence stylistique majeure sur les deux dernières décennies du cinéma&nbsp;»<a class="renvoi" href="#src-4">[4]</a>. Une version restaurée en 4K ressort en France le 21 juillet 2021<a class="renvoi" href="#src-5">[5]</a>.
+    </p>
+    <p class="discretion">
+      <strong>Ce qui n'a pas pu être vérifié.</strong> Trois pages ont refusé l'accès (HTTP 403)&nbsp;: l'article du <em>South China Morning Post</em> sur les vingt ans du film, la critique de RogerEbert.com, et l'article du <em>Sunday Observer</em>. Une recherche rapporte un accueil initial plus réservé, mais le texte n'a pas été lu. Les citations d'Ebert, de Mitchell, de Travers et de Parkinson viennent de la page Wikipédia, non des originaux. Aucune critique de la presse française n'a été lue directement pour ce film.
+    </p>
+  </section>
+
+  <section class="block" id="conclusion">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>9</strong></span>
+      <h2>Conclusion <span class="mitemps-sous">— la retenue comme force</span></h2>
+    </div>
+    <p>
+      Ce qui tient le film, c'est sa manière de ne rien dire tout en disant beaucoup. La cadence, la musique et la lumière remplissent ce que les personnages taisent, et Criterion en fait la marque d'une influence durable<a class="renvoi" href="#src-4">[4]</a>. Rapprochement d'analyse, non de source&nbsp;: la retenue du film n'est pas une pudeur de surface, c'est la structure même du récit, et c'est ce que les classements récents reconnaissent.
+    </p>
+    <p>
+      Le reproche qu'on peut lui faire est celui de sa beauté&nbsp;: une photographie si accomplie qu'elle risque de l'emporter sur le récit. Criterion décrit pourtant le film comme «&nbsp;à la fois délicatement maniéré et visuellement extravagant&nbsp;»<a class="renvoi" href="#src-4">[4]</a>, sans le lui reprocher&nbsp;; cette page tient le risque pour assumé, et c'est ce qui en fait un film qu'on revoit.
+    </p>
+  </section>
+
+</main>
+
+<section class="sources" id="sources">
+  <div class="sources-inner">
+    <span class="meta-label" style="color:#c9a15a;">Sources consultées</span>
+    <h2>La feuille de route</h2>
+    <ol class="source-list">
+      <li id="src-1">Wikipédia (EN), « In the Mood for Love » — <a href="https://en.wikipedia.org/wiki/In_the_Mood_for_Love" target="_blank" rel="noopener">en.wikipedia.org &mdash; In the Mood for Love</a></li>
+      <li id="src-2">Wikidata, élément Q1056853 — <a href="https://www.wikidata.org/wiki/Q1056853" target="_blank" rel="noopener">wikidata.org/wiki/Q1056853</a></li>
+      <li id="src-3">Universalis, « In the Mood for Love » — <a href="https://www.universalis.fr/encyclopedie/in-the-mood-for-love/" target="_blank" rel="noopener">universalis.fr &mdash; In the Mood for Love</a></li>
+      <li id="src-4">Criterion Channel, « In the Mood for Love » — <a href="https://criterionchannel.com/in-the-mood-for-love" target="_blank" rel="noopener">criterionchannel.com &mdash; In the Mood for Love</a></li>
+      <li id="src-5">Wikipédia (FR), « In the Mood for Love » — <a href="https://fr.wikipedia.org/wiki/In_the_Mood_for_Love" target="_blank" rel="noopener">fr.wikipedia.org &mdash; In the Mood for Love</a></li>
+    </ol>
+  </div>
+</section>
+
+<footer class="endnote">
+  Analyse compilée à partir de sources publiques consultées le 16 octobre 2026 — usage éditorial non commercial
+  <br><a href="../index.html">Retour aux analyses</a>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var id = this.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        e.stopPropagation();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+});
+</script>
+
+</body>
+</html>

@@ -184,5 +184,20 @@ const FILMS = [
     producteur: 'Claude Fable 5.1 (chaîne pilote automatique)',
     pays: ['Maroc', 'France', 'Belgique'],
     technique: ['couleur']
+  },
+  {
+    slug: 'in-the-mood-for-love',
+    title: 'In the Mood for Love',
+    director: 'Wong Kar-wai',
+    year: 2000,
+    summary: "Deux voisins découvrent que leurs conjoints se voient, et Wong Kar-wai fait de la retenue qui les rapproche la forme même de son film.",
+    url: 'films/in-the-mood-for-love.html',
+    poster: 'assets/posters/in-the-mood-for-love.jpg',
+    volet: 'critique',
+    datePublication: '2026-10-16 17:56',
+    genreBase: 'drame',
+    producteur: 'Claude Haiku 5.5 (chaîne pilote automatique)',
+    pays: ['Hong Kong', 'France'],
+    technique: ['couleur']
   }
 ];
