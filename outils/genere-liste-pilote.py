@@ -43,6 +43,15 @@ CE QUI CHANGE PAR RAPPORT A LA PRODUCTION, ET POURQUOI
      celles du script de production -- elles y sont elles-memes le jumeau de
      `assets/corpus.js`. Divergence non detectee automatiquement.
 
+  6. VARIANTE (amendement du 2026-10-16 23:07:21, BKL-CIN-106, calque pilote
+     v1.8, session " Opus CIN-106 Calque v1.8 variantes "). Une entree du
+     registre peut porter le champ OPTIONNEL variante: '<suffixe>' (seconde
+     analyse d'un film deja publie, par un autre calibre ; slug suffixe). Sa
+     vignette ajoute, dans le span.d, " -- variante <suffixe> (<calibre>)",
+     le calibre etant `producteur` avant la parenthese. Une entree SANS ce
+     champ produit la vignette d'avant a l'octet : --verifier reste a 0 sur
+     un registre sans variante.
+
 Les SEUILS, les CODES DE SORTIE et la doctrine (le HTML en dur, relisible tel
 quel dans le depot, frontiere P-31) sont inchanges.
 
@@ -185,7 +194,18 @@ def entree(bloc_texte):
         "genreBase": champ(bloc_texte, "genreBase"),
         "volet": champ(bloc_texte, "volet") or "critique",
         "datePublication": champ(bloc_texte, "datePublication"),
+        "producteur": champ(bloc_texte, "producteur"),
+        "variante": champ_variante(bloc_texte),
     }
+
+
+def champ_variante(bloc_texte):
+    """Champ OPTIONNEL variante (calque pilote v1.8) : lu en debut de ligne
+    seulement, pour ne jamais le prendre dans le texte d'un autre champ.
+    Absent -> None."""
+    import re
+    m = re.search(r"(?m)^\s*variante\s*:\s*'([^'\\]*)'", bloc_texte)
+    return m.group(1) if m else None
 
 
 def derniere_publiee(films):
@@ -206,6 +226,10 @@ def li(f, derniere):
     neuf = ('<span class="neuf">derni&egrave;re publi&eacute;e</span>'
             if derniere and f["slug"] == derniere["slug"] else "")
     suite = (u" &mdash; " + etiquette(f["genreBase"])) if f["genreBase"] else u""
+    if f.get("variante"):
+        calibre = unicode_str(f.get("producteur") or u"").split(u"(")[0].strip()
+        suite += (u" &mdash; variante " + echappe(f["variante"])
+                  + ((u" (" + echappe(calibre) + u")") if calibre else u""))
     return (u'      <li><a class="entree" href="%s" data-volet="%s">'
             u'<span class="t">%s%s</span>'
             u'<span class="a">%s</span>'

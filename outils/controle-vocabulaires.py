@@ -16,6 +16,13 @@
 # ASCII pur -- convention des scripts de ce depot (skill de production, 0 bis :
 # "Scripts en ASCII pur, commentaires compris"). Le texte, lui, est celui du
 # mandat.
+#
+# AMENDEMENT du 2026-10-16 23:07:21 (BKL-CIN-106, calque pilote v1.8, session
+# " Opus CIN-106 Calque v1.8 variantes ") -- seul ecart a la copie datee : le
+# champ OPTIONNEL `variante` (seconde analyse d'un film, slug suffixe) est
+# DECLARE dans OPTIONNELS_PILOTE. Il n'est PAS un vocabulaire ferme : il n'est
+# ni un axe bloquant, ni un champ obligatoire, il ne produit aucune faute et
+# n'arrete rien ; le script le COMPTE et le dit. Codes de sortie inchanges.
 # ---------------------------------------------------------------------------
 """controle-vocabulaires.py -- garde-fou mecanique des axes fermes (P-10).
 
@@ -49,6 +56,10 @@ import sys
 
 OBLIGATOIRES_V2 = ["volet", "datePublication", "pays", "genreBase",
                    "technique", "producteur"]
+
+# Champs OPTIONNELS propres au pilote (calque v1.8) : comptes, jamais controles
+# comme vocabulaire, jamais exiges (voir le bloc d'amendement en tete).
+OPTIONNELS_PILOTE = ["variante"]
 
 
 def lire(chemin):
@@ -171,6 +182,11 @@ def main():
     print("Axes bloquants : %s" % ", ".join(axes))
     print("Entrees : %d, dont %d au schema v2" % (
         len(entrees), sum(1 for b in entrees if champ(b, "volet") is not None)))
+    for opt in OPTIONNELS_PILOTE:
+        n_opt = sum(1 for b in entrees
+                    if re.search(r"(?m)^\s*" + opt + r"\s*:", b))
+        print("Champ optionnel '%s' (non controle, n'arrete rien) : %d entree(s)"
+              % (opt, n_opt))
     print("")
 
     if args.autotest:
