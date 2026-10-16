@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Une planète qui s'appelle la tristesse — Melancholia</title>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/mobilier.css">
+<link rel="stylesheet" href="../assets/pilote.css">
+<style>
+  :root{
+    /* Largeur du mobilier partagé, calée sur la colonne éditoriale de cette
+       page : 42rem moins deux marges de 1,4rem (box-sizing: border-box),
+       soit 39,2rem = 627,2 px ; formule de l'étape 3.1 :
+       (627,2 + 51,2) / 16 = 42,4rem. */
+    --mobilier-largeur:42.4rem;
+
+    /* Palette bespoke — le ciel de Saturne : bleu d'encre, violet de
+       serre, lilas de la mariée, blanc de lune. Contrastes composés au-dessus
+       de 4,5:1 pour tout texte courant. */
+    --brume:#eeeef3;
+    --brume-creuse:#dedfea;
+    --craie:#f5f5fa;
+    --encre:#1b1a26;
+    --encre-douce:#3a3950;
+    --encre-pale:#5c5a72;
+    --violet:#5b3f8c;
+    --lilas:#b9a4d9;
+    --bleu:#2d3f6e;
+    --lune:#dfe6f5;
+    --ciel:#0b0b16;
+    --ciel-claire:#16172a;
+    --filet:rgba(27,26,38,0.22);
+    --filet-tenu:rgba(27,26,38,0.11);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:var(--brume);
+    color:var(--encre);
+    font-family:var(--serif);
+    font-size:1.02rem;
+    line-height:1.74;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* Aucune règle `.wrap` ici : cette classe appartient au mobilier partagé. */
+
+  .back-link{
+    display:inline-block;
+    color:var(--encre-douce);
+    font-family:var(--mono);
+    font-size:0.66rem;
+    font-weight:500;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    text-decoration:none;
+    margin-bottom:1rem;
+  }
+  .back-link:hover{ color:var(--violet); }
+
+  /* Le filet lunaire, en haut et en bas de la couverture. */
+  .filet{ height:0.3rem; background:linear-gradient(90deg, var(--lilas) 0 50%, var(--lune) 50% 100%); }
+
+  /* ---------- COUVERTURE — le ciel de Saturne, avant la collision ---------- */
+  header.cover{
+    position:relative;
+    background:
+      radial-gradient(ellipse at 70% 0%, rgba(185,164,217,0.22), transparent 55%),
+      linear-gradient(to bottom, #07070e 0%, var(--ciel) 55%, var(--ciel-claire) 100%);
+    color:#eceef8;
+    overflow:hidden;
+  }
+  .cover-in{ position:relative; z-index:2; max-width:42rem; margin:0 auto; padding:1.5rem 1.4rem 2.8rem; }
+
+  header.cover .back-link{ color:#c9cce0; }
+  header.cover .back-link:hover{ color:var(--lilas); }
+
+  .etiquette{
+    display:flex; flex-wrap:wrap; gap:0.3rem 1.2rem;
+    font-family:var(--mono);
+    font-size:0.62rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--lilas);
+    margin-bottom:1.5rem;
+  }
+
+  h1.titre{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(2.1rem, 7vw, 3.15rem);
+    line-height:1.06;
+    letter-spacing:-0.022em;
+    margin:0 0 0.55rem;
+    color:#f7f7fc;
+  }
+  .titre-original{
+    font-family:var(--mono);
+    font-size:0.7rem;
+    letter-spacing:0.1em;
+    color:var(--lilas);
+    margin:0 0 1.2rem;
+  }
+  .sous-titre{
+    font-size:1.03rem;
+    line-height:1.62;
+    color:#eceef8;
+    margin:0 0 1.7rem;
+    max-width:34rem;
+  }
+
+  dl.identite{ margin:0; font-size:0.86rem; }
+  dl.identite > div{
+    display:flex; gap:0.7rem; padding:0.3rem 0;
+    border-bottom:1px solid rgba(236,238,248,0.18);
+  }
+  dl.identite dt{
+    flex:0 0 7.2rem;
+    font-family:var(--mono); font-size:0.64rem; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--lilas); padding-top:0.18rem;
+  }
+  dl.identite dd{ margin:0; color:#eceef8; }
+
+  /* Bloc affiche — écrit toujours (production v2.8, étape 4) ; le repli
+     onerror retire la figure si le fichier manque. */
+  .cover-media{ display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start; }
+  figure.poster{ margin:0; flex:0 0 12.4rem; max-width:100%; }
+  figure.poster img{
+    display:block; width:100%; height:auto;
+    border:1px solid rgba(185,164,217,0.45);
+    box-shadow:0 10px 26px rgba(0,0,0,0.6);
+  }
+  .cover-media dl.identite{ flex:1 1 15rem; min-width:13rem; }
+  @media (max-width:560px){
+    figure.poster{ flex:1 1 100%; max-width:15rem; }
+  }
+
+  .provenance{
+    margin-top:1.6rem; padding:0.75rem 0.95rem;
+    border-left:3px solid var(--violet);
+    /* Couple écrit en OPAQUE dans la même règle : le contrôle de contraste
+       lit les couples déclarés et ne résout pas l'alpha. */
+    background:#16172a;
+    color:#e2e4f0;
+    font-family:var(--mono); font-size:0.68rem; line-height:1.62;
+  }
+
+  /* ---------- SOMMAIRE ---------- */
+  nav.toc{ border-bottom:1px solid var(--filet); background:var(--brume-creuse); color:var(--encre-douce); }
+  .toc-inner{
+    max-width:42rem; margin:0 auto; padding:0.85rem 1.4rem;
+    display:flex; flex-wrap:wrap; gap:0.35rem 1.1rem;
+  }
+  nav.toc a{
+    font-family:var(--mono); font-size:0.66rem; letter-spacing:0.06em;
+    text-transform:uppercase; color:var(--encre-douce); text-decoration:none;
+    border-bottom:1px solid transparent; padding-bottom:1px;
+  }
+  nav.toc a:hover{ color:var(--violet); border-bottom-color:var(--violet); }
+
+  /* ---------- CORPS — chaque section est une mi-temps ---------- */
+  main{ max-width:42rem; margin:0 auto; padding:2.4rem 1.4rem 1rem; }
+  section.block{ margin:0 0 2.7rem; }
+  .mitemps-head{
+    display:flex; gap:0.9rem; align-items:flex-start;
+    margin:0 0 0.9rem; padding-bottom:0.5rem;
+    border-bottom:2px solid var(--encre);
+  }
+  .mitemps{
+    flex:0 0 auto;
+    min-width:3.2rem;
+    padding:0.3rem 0.45rem 0.34rem;
+    background:var(--bleu);
+    color:var(--craie);
+    border-radius:0.15rem;
+    box-shadow:inset 0 -3px 0 var(--lilas);
+    font-family:var(--mono); font-size:0.58rem; line-height:1.3;
+    letter-spacing:0.08em; text-align:center; text-transform:uppercase;
+  }
+  .mitemps strong{ display:block; font-size:0.95rem; letter-spacing:0; }
+  section.block h2{
+    font-family:var(--serif); font-weight:600;
+    font-size:1.42rem; line-height:1.22; letter-spacing:-0.012em;
+    margin:0.1rem 0 0; color:var(--encre);
+  }
+  .mitemps-sous{ display:block; font-weight:400; font-size:0.93rem; color:var(--encre-pale); }
+  section.block h3{
+    font-family:var(--mono); font-weight:500; font-size:0.74rem;
+    letter-spacing:0.1em; text-transform:uppercase; color:var(--violet);
+    margin:1.6rem 0 0.5rem;
+  }
+  section.block p{ margin:0 0 1.05rem; color:var(--encre-douce); }
+  section.block p:last-child{ margin-bottom:0; }
+  em{ font-style:italic; }
+
+  a.renvoi{
+    font-family:var(--mono); font-size:0.66em; vertical-align:super;
+    text-decoration:none; color:var(--violet); padding:0 0.06em;
+  }
+  a.renvoi:hover{ text-decoration:underline; }
+
+  .alerte{
+    margin:0 0 1.2rem; padding:0.6rem 0.9rem;
+    border:1px dashed var(--violet);
+    font-family:var(--mono); font-size:0.7rem; letter-spacing:0.04em;
+    color:var(--encre-douce);
+  }
+  .discretion{
+    font-size:0.92rem; color:var(--encre-pale);
+    border-top:1px dashed var(--filet-tenu); padding-top:0.7rem;
+  }
+
+  /* ---------- SOURCES ---------- */
+  section.sources{ background:var(--ciel); color:#eceef8; margin-top:2rem; }
+  .sources-inner{ max-width:42rem; margin:0 auto; padding:2.2rem 1.4rem 2.4rem; }
+  section.sources h2{
+    font-family:var(--serif); font-weight:600; font-size:1.3rem; margin:0.55rem 0 1.1rem; color:#f7f7fc;
+  }
+  ol.source-list{ margin:0; padding-left:1.3rem; font-size:0.88rem; line-height:1.7; }
+  ol.source-list li{ margin-bottom:0.55rem; color:#eceef8; }
+  ol.source-list a{ color:var(--lilas); word-break:break-word; }
+
+  footer.endnote{
+    max-width:42rem; margin:0 auto; padding:1.5rem 1.4rem 3rem;
+    font-family:var(--mono); font-size:0.66rem; line-height:1.8;
+    color:var(--encre-pale); text-align:center;
+  }
+  footer.endnote a{ color:var(--encre-douce); }
+
+  @media (max-width:560px){
+    .cover-in{ padding:1.2rem 1.2rem 2.4rem; }
+    dl.identite dt{ flex:0 0 6rem; }
+    .mitemps-head{ gap:0.7rem; }
+  }
+</style>
+</head>
+<body data-volet="critique">
+
+<div class="bandeau-pilote" role="note">
+  <p class="bandeau-in"><strong>Publication automatique, non relue.</strong> Cette page a été produite et mise en ligne par une chaîne d'essai, sans relecture humaine. Elle peut contenir des erreurs. Ce site ne fait pas partie du site <em>Analyses de films</em>.</p>
+</div>
+
+<header class="chrome">
+  <div class="chrome-in">
+    <a class="marque" href="../index.html">Analyses de films</a>
+    <nav class="menu" aria-label="Navigation principale">
+      <a href="../index.html">Accueil</a>
+      <a href="../critiques.html" aria-current="page">Critiques</a>
+      <a href="../etudes.html">&Eacute;tudes</a>
+      <a href="https://montage-parallele.cd-consulting-rd.be/qui-sommes-nous.html" rel="noopener">Montage Parall&egrave;le &#8599;</a>
+      <a href="../comment-ca-marche.html">Comment ce site fonctionne</a>
+      <a href="../demander-une-analyse.html">Demander une analyse</a>
+    </nav>
+  </div>
+</header>
+
+<header class="cover">
+  <div class="filet" aria-hidden="true"></div>
+  <div class="cover-in">
+    <a class="back-link lien-retour" href="../index.html">Retour aux analyses</a>
+    <div class="etiquette">
+      <span>Un mariage</span>
+      <span>Une planète errante</span>
+      <span>Cannes, mai 2011</span>
+    </div>
+
+    <h1 class="titre">Melancholia</h1>
+    <p class="titre-original">Melancholia &mdash; Lars von Trier &mdash; 2011</p>
+    <p class="sous-titre">Justine se marie pendant que la planète Melancholia approche de la Terre&nbsp;: Lars von Trier fait de la fin du monde le décor d'une histoire de sœurs.</p>
+
+    <div class="cover-media">
+      <figure class="poster">
+        <img src="../assets/posters/melancholia.jpg"
+             alt="Affiche du film Melancholia"
+             onerror="this.closest('.poster').remove()">
+      </figure>
+    <dl class="identite">
+      <div><dt>Réalisation</dt><dd>Lars von Trier</dd></div>
+      <div><dt>Scénario</dt><dd>Lars von Trier</dd></div>
+      <div><dt>Année</dt><dd>2011</dd></div>
+      <div><dt>Durée</dt><dd>130 minutes</dd></div>
+      <div><dt>Interprètes</dt><dd>Kirsten Dunst, Charlotte Gainsbourg</dd></div>
+      <div><dt>Pays</dt><dd>Danemark, Suède, France, Allemagne</dd></div>
+    </dl>
+    </div>
+
+    <div class="provenance">
+      <strong>Provenance.</strong> Analyse produite le 16 octobre 2026 par IAGen Claude d'Anthropic (Claude Haiku 5.5), <strong>chaîne pilote automatique, sans relecture humaine</strong> &mdash; surface d'essai, hors du corpus publié. Affiche&nbsp;: fonds d'affiches du propriétaire du site, fichier listé à l'index, commit 67e06a8. Les citations de sources en langue anglaise sont traduites en français par la rédaction, renvoi conservé.
+    </div>
+  </div>
+  <div class="filet" aria-hidden="true"></div>
+</header>
+
+<div class="mobilier-wrap" style="padding-top:1.6rem;">
+<div class="cartouche">
+  <span class="regime">R2 &mdash; Critique nouvelle</span>
+  <span class="signature">Analyse faite par IAGen Claude d'Anthropic (Claude Haiku 5.5, cha&icirc;ne pilote automatique, sans relecture humaine).</span>
+  <span class="date-pub">Publi&eacute;e le 16 octobre 2026</span>
+</div>
+</div>
+
+<nav class="toc" aria-label="Sommaire">
+  <div class="toc-inner">
+    <a href="#fiche">Fiche technique</a>
+    <a href="#synopsis">Synopsis</a>
+    <a href="#production">Production</a>
+    <a href="#structure">Structure</a>
+    <a href="#miseenscene">Mise en scène</a>
+    <a href="#personnages">Personnages</a>
+    <a href="#themes">Thèmes</a>
+    <a href="#reception">Réception</a>
+    <a href="#conclusion">Conclusion</a>
+    <a href="#sources">Sources</a>
+  </div>
+</nav>
+
+<main>
+
+  <section class="block" id="fiche">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>1</strong></span>
+      <h2>Fiche technique <span class="mitemps-sous">— deux sœurs, une planète</span></h2>
+    </div>
+    <p>
+      <em>Melancholia</em> est écrit et réalisé par Lars von Trier<a class="renvoi" href="#src-2">[2]</a>. Wikidata le décrit comme un film de 2011 réalisé par Lars von Trier, ce qui confirme l'identité du titre et du réalisateur<a class="renvoi" href="#src-3">[3]</a>. Kirsten Dunst joue Justine, Charlotte Gainsbourg Claire, Kiefer Sutherland John et John Hurt Dexter<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-2">[2]</a>.
+    </p>
+    <p>
+      Le film dure 130 minutes<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-2">[2]</a>. Il est présenté en compétition au Festival de Cannes 2011, où Kirsten Dunst reçoit le prix d'interprétation féminine<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-2">[2]</a>.
+    </p>
+    <p class="discretion">
+      <strong>Divergences relevées.</strong> La page anglaise donne le Danemark, la Suède, la France et l'Allemagne comme pays de production, la page française y ajoute l'Italie et l'Espagne<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-2">[2]</a>. La première à Cannes est datée du 18 mai 2011 par la page anglaise, et la sortie française du 11 mai 2011 par la page française, pendant le festival<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-2">[2]</a>. Cette page retient les pays de la page anglaise.
+    </p>
+  </section>
+
+  <section class="block" id="synopsis">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>2</strong></span>
+      <h2>Synopsis <span class="mitemps-sous">— Justine, Claire</span></h2>
+    </div>
+    <p>
+      Le film a deux parties, «&nbsp;Justine&nbsp;» et «&nbsp;Claire&nbsp;», précédées d'un prologue<a class="renvoi" href="#src-4">[4]</a><a class="renvoi" href="#src-2">[2]</a>. La première suit la réception de mariage de Justine, la seconde le séjour des deux sœurs chez Claire, alors que la planète approche<a class="renvoi" href="#src-2">[2]</a>.
+    </p>
+    <p>
+      La planète Melancholia, errante, passe d'abord près de la Terre, puis la gravité la ramène sur une trajectoire de collision<a class="renvoi" href="#src-1">[1]</a>. La page anglaise précise que la séquence d'ouverture montre la collision, et que le film révèle la fin dès le début<a class="renvoi" href="#src-1">[1]</a>.
+    </p>
+  </section>
+
+  <section class="block" id="production">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>3</strong></span>
+      <h2>Contexte de production <span class="mitemps-sous">— une planète à l'écran</span></h2>
+    </div>
+    <p>
+      Les sources consultées ne documentent pas les conditions de tournage. Elles donnent le casting et le palmarès, et les pays de coproduction, non les étapes de fabrication.
+    </p>
+    <p>
+      Rapprochement d'analyse, non de source&nbsp;: une planète qui n'est jamais montée comme un monstre, mais comme une présence grandissante dans le ciel, demande une mise en scène de l'attente. Le film travaille là-dessus.
+    </p>
+  </section>
+
+  <section class="block" id="structure">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>4</strong></span>
+      <h2>Structure narrative <span class="mitemps-sous">— la fin dès le début</span></h2>
+    </div>
+    <p>
+      Anne-Violaine Houcke, dans <em>Critikat</em>, rappelle que le film est «&nbsp;en deux parties, sobrement intitulées Justine et Claire&nbsp;»<a class="renvoi" href="#src-4">[4]</a>. Elle précise que Claire a la Terre, Justine Saturne, et que «&nbsp;dans la cosmologie, la planète de la mélancolie est justement Saturne&nbsp;»<a class="renvoi" href="#src-4">[4]</a>.
+    </p>
+    <p>
+      Rapprochement d'analyse, non de source&nbsp;: le film se construit à rebours, la fin étant connue dès l'ouverture, et le récit n'a plus à faire attendre sur son issue. Ce qu'il fait attendre, c'est l'état des deux sœurs.
+    </p>
+  </section>
+
+  <section class="block" id="miseenscene">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>5</strong></span>
+      <h2>Mise en scène et procédés <span class="mitemps-sous">— lumière bleue, Wagner</span></h2>
+    </div>
+    <p>
+      Houcke décrit une lumière «&nbsp;bleuâtre, émanant de Saturne, et les ombres sont doubles&nbsp;», qu'elle rattache à un éclairage fantastique hérité de l'expressionnisme<a class="renvoi" href="#src-4">[4]</a>. La musique accompagne la tension finale&nbsp;: c'est elle, dit-elle, qui fait résonner l'air somptueux de <em>Tristan et Isolde</em> de Wagner<a class="renvoi" href="#src-4">[4]</a>.
+    </p>
+    <p>
+      La fin est, selon Houcke, une «&nbsp;danse de la mort&nbsp;» entre Saturne et la Terre, où la tension monte par les gestes et par la bande-son<a class="renvoi" href="#src-4">[4]</a>.
+    </p>
+  </section>
+
+  <section class="block" id="personnages">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>6</strong></span>
+      <h2>Personnages principaux <span class="mitemps-sous">— Justine et Claire</span></h2>
+    </div>
+    <h3>Justine (Kirsten Dunst)</h3>
+    <p>
+      Houcke écrit que Justine est «&nbsp;évanescente. Absente à ce monde, sans cesse évanouie, sans cesse en voie de disparition&nbsp;»<a class="renvoi" href="#src-4">[4]</a>. Elle ajoute&nbsp;: «&nbsp;Justine n'est pas folle, capricieuse ou même dépressive.&nbsp;»<a class="renvoi" href="#src-4">[4]</a>
+    </p>
+    <p>
+      Le prix d'interprétation de Cannes récompense ce rôle<a class="renvoi" href="#src-2">[2]</a>. Un critique de Loeb, rapporté par Wikipédia en anglais, écrit que Dunst est «&nbsp;si bonne dans ce film&nbsp;», dans un rôle «&nbsp;qui ne ressemble à aucun autre qu'elle ait tenté&nbsp;»<a class="renvoi" href="#src-1">[1]</a>.
+    </p>
+    <h3>Claire (Charlotte Gainsbourg)</h3>
+    <p>
+      Houcke oppose Claire à sa sœur&nbsp;: Claire a la Terre, Justine a Saturne<a class="renvoi" href="#src-4">[4]</a>. Le rapprochement est celui du film, et cette page n'a pas lu d'analyse détaillée du personnage de Claire.
+    </p>
+  </section>
+
+  <section class="block" id="themes">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>7</strong></span>
+      <h2>Thèmes <span class="mitemps-sous">— la fin du monde comme révélation</span></h2>
+    </div>
+
+    <h3>L'apocalypse</h3>
+    <p>
+      Houcke rappelle que le mot grec <em>apokalupsis</em> signifie «&nbsp;révélation, enlèvement du voile&nbsp;»<a class="renvoi" href="#src-4">[4]</a>. Elle juge que le film réussit «&nbsp;le film-catastrophe le plus angoissant qui ait été réalisé&nbsp;»<a class="renvoi" href="#src-4">[4]</a>.
+    </p>
+
+    <h3>La mélancolie</h3>
+    <p>
+      Houcke rappelle que, dans la cosmologie, «&nbsp;la planète de la mélancolie est justement Saturne&nbsp;»<a class="renvoi" href="#src-4">[4]</a>. Rapprochement d'analyse, non de source&nbsp;: le titre désigne moins un état qu'un astre, et le film fait de cet astre le lieu où chaque sœur projette ce qu'elle est.
+    </p>
+  </section>
+
+  <section class="block" id="reception">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>8</strong></span>
+      <h2>Réception critique et postérité <span class="mitemps-sous">— Cannes, la presse, le palmarès</span></h2>
+    </div>
+    <p>
+      Ebbe Iversen, dans le quotidien danois <em>Berlingske</em>, parle d'une œuvre «&nbsp;visionnaire, qui fait une impression gigantesque&nbsp;»<a class="renvoi" href="#src-1">[1]</a>. Peter Bradshaw, dans <em>The Guardian</em>, écrit que von Trier «&nbsp;est de retour avec un film sur la fin du monde&nbsp;»<a class="renvoi" href="#src-1">[1]</a>. Ces deux citations sont rapportées par Wikipédia en anglais, non lues dans l'original.
+    </p>
+    <p>
+      Le cinéaste était attendu au palmarès. Olivier Assayas, membre du jury de Cannes 2011, déclare en 2020 à <em>Libération</em>&nbsp;: «&nbsp;Il y a eu des conséquences sur le palmarès, car il était un sérieux candidat pour la Palme.&nbsp;»<a class="renvoi" href="#src-2">[2]</a>
+    </p>
+    <p class="discretion">
+      <strong>Ce qui n'a pas pu être vérifié.</strong> Les citations d'Iversen et de Bradshaw viennent de Wikipédia en anglais, non des textes. La déclaration d'Assayas est donnée par Wikipédia en français, qui renvoie à <em>Libération</em> sans l'avoir lue. Les pages de <em>Télérama</em>, de <em>Libération</em> et des <em>Inrocks</em> sur le film n'ont pas été trouvées dans la recherche.
+    </p>
+  </section>
+
+  <section class="block" id="conclusion">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>9</strong></span>
+      <h2>Conclusion <span class="mitemps-sous">— le ciel de Saturne</span></h2>
+    </div>
+    <p>
+      Ce qui tient <em>Melancholia</em>, c'est le contraste entre une fin annoncée et une attention portée aux êtres. Houcke juge que le film réussit «&nbsp;le film-catastrophe le plus angoissant qui ait été réalisé&nbsp;»<a class="renvoi" href="#src-4">[4]</a>, et elle décrit Justine comme ni folle, ni capricieuse, ni dépressive<a class="renvoi" href="#src-4">[4]</a>.
+    </p>
+    <p>
+      Rapprochement d'analyse, non de source&nbsp;: la force du film est de ne pas choisir entre la fin du monde et le drame familial. Les deux se jouent dans la même maison, avec la même lumière bleue.
+    </p>
+  </section>
+
+</main>
+
+<section class="sources" id="sources">
+  <div class="sources-inner">
+    <span class="meta-label" style="color:#b9a4d9;">Sources consultées</span>
+    <h2>Le ciel de référence</h2>
+    <ol class="source-list">
+      <li id="src-1">Wikipédia (EN), « Melancholia (2011 film) » — <a href="https://en.wikipedia.org/wiki/Melancholia_(2011_film)" target="_blank" rel="noopener">en.wikipedia.org &mdash; Melancholia (2011 film)</a></li>
+      <li id="src-2">Wikipédia (FR), « Melancholia (film, 2011) » — <a href="https://fr.wikipedia.org/wiki/Melancholia_(film,_2011)" target="_blank" rel="noopener">fr.wikipedia.org &mdash; Melancholia (film, 2011)</a></li>
+      <li id="src-3">Wikidata, élément Q165699 — <a href="https://www.wikidata.org/wiki/Q165699" target="_blank" rel="noopener">wikidata.org/wiki/Q165699</a></li>
+      <li id="src-4">Anne-Violaine Houcke, critique, <em>Critikat</em>, 9 août 2011 — <a href="https://www.critikat.com/actualite-cinema/critique/melancholia/" target="_blank" rel="noopener">critikat.com &mdash; Melancholia</a></li>
+    </ol>
+  </div>
+</section>
+
+<footer class="endnote">
+  Analyse compilée à partir de sources publiques consultées le 16 octobre 2026 — usage éditorial non commercial
+  <br><a href="../index.html">Retour aux analyses</a>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var id = this.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        e.stopPropagation();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+});
+</script>
+
+</body>
+</html>

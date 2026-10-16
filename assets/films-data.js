@@ -229,5 +229,20 @@ const FILMS = [
     producteur: 'Claude Haiku 5.5 (chaîne pilote automatique)',
     pays: ['Etats-Unis'],
     technique: ['couleur']
+  },
+  {
+    slug: 'melancholia',
+    title: 'Melancholia',
+    director: 'Lars von Trier',
+    year: 2011,
+    summary: "Justine se marie pendant que la planète Melancholia approche de la Terre : von Trier fait de la fin du monde le décor d'une histoire de sœurs.",
+    url: 'films/melancholia.html',
+    poster: 'assets/posters/melancholia.jpg',
+    volet: 'critique',
+    datePublication: '2026-10-16 18:04',
+    genreBase: 'drame',
+    producteur: 'Claude Haiku 5.5 (chaîne pilote automatique)',
+    pays: ['Danemark', 'Suede', 'France', 'Allemagne'],
+    technique: ['couleur']
   }
 ];
