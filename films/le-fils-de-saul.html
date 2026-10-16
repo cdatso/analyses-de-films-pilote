@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Le regard, plus que l'image — Le Fils de Saul</title>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/mobilier.css">
+<link rel="stylesheet" href="../assets/pilote.css">
+<style>
+  :root{
+    /* Largeur du mobilier partagé, calée sur la colonne éditoriale de cette
+       page : 42rem moins deux marges de 1,4rem (box-sizing: border-box),
+       soit 39,2rem = 627,2 px ; formule de l'étape 3.1 :
+       (627,2 + 51,2) / 16 = 42,4rem. */
+    --mobilier-largeur:42.4rem;
+
+    /* Palette bespoke — les cendres du crématoire : gris de pellicule,
+       charbon, brique sèche, ocre de la terre de Budafok. Contrastes
+       composés au-dessus de 4,5:1 pour tout texte courant. */
+    --brume:#e9e7e1;
+    --brume-creuse:#dedbd3;
+    --craie:#f3f1ea;
+    --charbon:#1d1c1a;
+    --charbon-douce:#3f3d39;
+    --charbon-pale:#625f58;
+    --brique:#8a3b2e;
+    --fer:#3b4447;
+    --ocre:#b9925a;
+    --nuit:#15161a;
+    --nuit-claire:#222327;
+    --filet:rgba(29,28,26,0.22);
+    --filet-tenu:rgba(29,28,26,0.11);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:var(--brume);
+    color:var(--charbon);
+    font-family:var(--serif);
+    font-size:1.02rem;
+    line-height:1.74;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* Aucune règle `.wrap` ici : cette classe appartient au mobilier partagé. */
+
+  .back-link{
+    display:inline-block;
+    color:var(--charbon-douce);
+    font-family:var(--mono);
+    font-size:0.66rem;
+    font-weight:500;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    text-decoration:none;
+    margin-bottom:1rem;
+  }
+  .back-link:hover{ color:var(--brique); }
+
+  /* Le filet de cendre, en haut et en bas de la couverture. */
+  .filet{ height:0.3rem; background:linear-gradient(90deg, var(--ocre) 0 40%, var(--brique) 40% 100%); }
+
+  /* ---------- COUVERTURE — une fosse de nuit, une lumière de projecteur ---------- */
+  header.cover{
+    position:relative;
+    background:
+      radial-gradient(ellipse at 75% 0%, rgba(185,146,90,0.20), transparent 55%),
+      linear-gradient(to bottom, #0f1012 0%, var(--nuit) 55%, var(--nuit-claire) 100%);
+    color:#ecebe6;
+    overflow:hidden;
+  }
+  .cover-in{ position:relative; z-index:2; max-width:42rem; margin:0 auto; padding:1.5rem 1.4rem 2.8rem; }
+
+  header.cover .back-link{ color:#cfcbc2; }
+  header.cover .back-link:hover{ color:var(--ocre); }
+
+  .etiquette{
+    display:flex; flex-wrap:wrap; gap:0.3rem 1.2rem;
+    font-family:var(--mono);
+    font-size:0.62rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--ocre);
+    margin-bottom:1.5rem;
+  }
+
+  h1.titre{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(2.1rem, 7vw, 3.15rem);
+    line-height:1.06;
+    letter-spacing:-0.022em;
+    margin:0 0 0.55rem;
+    color:#f6f4ee;
+  }
+  .titre-original{
+    font-family:var(--mono);
+    font-size:0.7rem;
+    letter-spacing:0.1em;
+    color:var(--ocre);
+    margin:0 0 1.2rem;
+  }
+  .sous-titre{
+    font-size:1.03rem;
+    line-height:1.62;
+    color:#ecebe6;
+    margin:0 0 1.7rem;
+    max-width:34rem;
+  }
+
+  dl.identite{ margin:0; font-size:0.86rem; }
+  dl.identite > div{
+    display:flex; gap:0.7rem; padding:0.3rem 0;
+    border-bottom:1px solid rgba(236,235,230,0.18);
+  }
+  dl.identite dt{
+    flex:0 0 7.2rem;
+    font-family:var(--mono); font-size:0.64rem; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--ocre); padding-top:0.18rem;
+  }
+  dl.identite dd{ margin:0; color:#ecebe6; }
+
+  /* Bloc affiche — écrit toujours (production v2.8, étape 4) ; le repli
+     onerror retire la figure si le fichier manque. */
+  .cover-media{ display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start; }
+  figure.poster{ margin:0; flex:0 0 12.4rem; max-width:100%; }
+  figure.poster img{
+    display:block; width:100%; height:auto;
+    border:1px solid rgba(185,146,90,0.45);
+    box-shadow:0 10px 26px rgba(0,0,0,0.6);
+  }
+  .cover-media dl.identite{ flex:1 1 15rem; min-width:13rem; }
+  @media (max-width:560px){
+    figure.poster{ flex:1 1 100%; max-width:15rem; }
+  }
+
+  .provenance{
+    margin-top:1.6rem; padding:0.75rem 0.95rem;
+    border-left:3px solid var(--brique);
+    /* Couple écrit en OPAQUE dans la même règle : le contrôle de contraste
+       lit les couples déclarés et ne résout pas l'alpha. */
+    background:#222327;
+    color:#e6e3dc;
+    font-family:var(--mono); font-size:0.68rem; line-height:1.62;
+  }
+
+  /* ---------- SOMMAIRE ---------- */
+  nav.toc{ border-bottom:1px solid var(--filet); background:var(--brume-creuse); color:var(--charbon-douce); }
+  .toc-inner{
+    max-width:42rem; margin:0 auto; padding:0.85rem 1.4rem;
+    display:flex; flex-wrap:wrap; gap:0.35rem 1.1rem;
+  }
+  nav.toc a{
+    font-family:var(--mono); font-size:0.66rem; letter-spacing:0.06em;
+    text-transform:uppercase; color:var(--charbon-douce); text-decoration:none;
+    border-bottom:1px solid transparent; padding-bottom:1px;
+  }
+  nav.toc a:hover{ color:var(--brique); border-bottom-color:var(--brique); }
+
+  /* ---------- CORPS — chaque section est une mi-temps ---------- */
+  main{ max-width:42rem; margin:0 auto; padding:2.4rem 1.4rem 1rem; }
+  section.block{ margin:0 0 2.7rem; }
+  .mitemps-head{
+    display:flex; gap:0.9rem; align-items:flex-start;
+    margin:0 0 0.9rem; padding-bottom:0.5rem;
+    border-bottom:2px solid var(--charbon);
+  }
+  .mitemps{
+    flex:0 0 auto;
+    min-width:3.2rem;
+    padding:0.3rem 0.45rem 0.34rem;
+    background:var(--fer);
+    color:var(--craie);
+    border-radius:0.15rem;
+    box-shadow:inset 0 -3px 0 var(--ocre);
+    font-family:var(--mono); font-size:0.58rem; line-height:1.3;
+    letter-spacing:0.08em; text-align:center; text-transform:uppercase;
+  }
+  .mitemps strong{ display:block; font-size:0.95rem; letter-spacing:0; }
+  section.block h2{
+    font-family:var(--serif); font-weight:600;
+    font-size:1.42rem; line-height:1.22; letter-spacing:-0.012em;
+    margin:0.1rem 0 0; color:var(--charbon);
+  }
+  .mitemps-sous{ display:block; font-weight:400; font-size:0.93rem; color:var(--charbon-pale); }
+  section.block h3{
+    font-family:var(--mono); font-weight:500; font-size:0.74rem;
+    letter-spacing:0.1em; text-transform:uppercase; color:var(--brique);
+    margin:1.6rem 0 0.5rem;
+  }
+  section.block p{ margin:0 0 1.05rem; color:var(--charbon-douce); }
+  section.block p:last-child{ margin-bottom:0; }
+  em{ font-style:italic; }
+
+  a.renvoi{
+    font-family:var(--mono); font-size:0.66em; vertical-align:super;
+    text-decoration:none; color:var(--brique); padding:0 0.06em;
+  }
+  a.renvoi:hover{ text-decoration:underline; }
+
+  .alerte{
+    margin:0 0 1.2rem; padding:0.6rem 0.9rem;
+    border:1px dashed var(--brique);
+    font-family:var(--mono); font-size:0.7rem; letter-spacing:0.04em;
+    color:var(--charbon-douce);
+  }
+  .discretion{
+    font-size:0.92rem; color:var(--charbon-pale);
+    border-top:1px dashed var(--filet-tenu); padding-top:0.7rem;
+  }
+
+  /* ---------- SOURCES ---------- */
+  section.sources{ background:var(--nuit); color:#ecebe6; margin-top:2rem; }
+  .sources-inner{ max-width:42rem; margin:0 auto; padding:2.2rem 1.4rem 2.4rem; }
+  section.sources h2{
+    font-family:var(--serif); font-weight:600; font-size:1.3rem; margin:0.55rem 0 1.1rem; color:#f6f4ee;
+  }
+  ol.source-list{ margin:0; padding-left:1.3rem; font-size:0.88rem; line-height:1.7; }
+  ol.source-list li{ margin-bottom:0.55rem; color:#ecebe6; }
+  ol.source-list a{ color:var(--ocre); word-break:break-word; }
+
+  footer.endnote{
+    max-width:42rem; margin:0 auto; padding:1.5rem 1.4rem 3rem;
+    font-family:var(--mono); font-size:0.66rem; line-height:1.8;
+    color:var(--charbon-pale); text-align:center;
+  }
+  footer.endnote a{ color:var(--charbon-douce); }
+
+  @media (max-width:560px){
+    .cover-in{ padding:1.2rem 1.2rem 2.4rem; }
+    dl.identite dt{ flex:0 0 6rem; }
+    .mitemps-head{ gap:0.7rem; }
+  }
+</style>
+</head>
+<body data-volet="critique">
+
+<div class="bandeau-pilote" role="note">
+  <p class="bandeau-in"><strong>Publication automatique, non relue.</strong> Cette page a été produite et mise en ligne par une chaîne d'essai, sans relecture humaine. Elle peut contenir des erreurs. Ce site ne fait pas partie du site <em>Analyses de films</em>.</p>
+</div>
+
+<header class="chrome">
+  <div class="chrome-in">
+    <a class="marque" href="../index.html">Analyses de films</a>
+    <nav class="menu" aria-label="Navigation principale">
+      <a href="../index.html">Accueil</a>
+      <a href="../critiques.html" aria-current="page">Critiques</a>
+      <a href="../etudes.html">&Eacute;tudes</a>
+      <a href="https://montage-parallele.cd-consulting-rd.be/qui-sommes-nous.html" rel="noopener">Montage Parall&egrave;le &#8599;</a>
+      <a href="../comment-ca-marche.html">Comment ce site fonctionne</a>
+      <a href="../demander-une-analyse.html">Demander une analyse</a>
+    </nav>
+  </div>
+</header>
+
+<header class="cover">
+  <div class="filet" aria-hidden="true"></div>
+  <div class="cover-in">
+    <a class="back-link lien-retour" href="../index.html">Retour aux analyses</a>
+    <div class="etiquette">
+      <span>Auschwitz, octobre 1944</span>
+      <span>Un Sonderkommando</span>
+      <span>Cannes, mai 2015</span>
+    </div>
+
+    <h1 class="titre">Le Fils de Saul</h1>
+    <p class="titre-original">Son of Saul &mdash; László Nemes &mdash; 2015</p>
+    <p class="sous-titre">Dans le camp, un homme croit reconnaître son fils parmi les morts et veut l'enterrer selon le rite juif&nbsp;: Nemes ne filme que ce que Saul voit, et ne lui épargne rien.</p>
+
+    <div class="cover-media">
+      <figure class="poster">
+        <img src="../assets/posters/le-fils-de-saul.jpg"
+             alt="Affiche du film Le Fils de Saul"
+             onerror="this.closest('.poster').remove()">
+      </figure>
+    <dl class="identite">
+      <div><dt>Réalisation</dt><dd>László Nemes</dd></div>
+      <div><dt>Scénario</dt><dd>László Nemes, avec Clara Royer</dd></div>
+      <div><dt>Année</dt><dd>2015</dd></div>
+      <div><dt>Durée</dt><dd>107 minutes</dd></div>
+      <div><dt>Format</dt><dd>35 mm</dd></div>
+      <div><dt>Pays</dt><dd>Hongrie</dd></div>
+    </dl>
+    </div>
+
+    <div class="provenance">
+      <strong>Provenance.</strong> Analyse produite le 16 octobre 2026 par IAGen Claude d'Anthropic (Claude Haiku 5.5), <strong>chaîne pilote automatique, sans relecture humaine</strong> &mdash; surface d'essai, hors du corpus publié. Affiche&nbsp;: fonds d'affiches du propriétaire du site, fichier listé à l'index, commit 67e06a8. Les citations de sources en langue anglaise sont traduites en français par la rédaction, renvoi conservé.
+    </div>
+  </div>
+  <div class="filet" aria-hidden="true"></div>
+</header>
+
+<div class="mobilier-wrap" style="padding-top:1.6rem;">
+<div class="cartouche">
+  <span class="regime">R2 &mdash; Critique nouvelle</span>
+  <span class="signature">Analyse faite par IAGen Claude d'Anthropic (Claude Haiku 5.5, cha&icirc;ne pilote automatique, sans relecture humaine).</span>
+  <span class="date-pub">Publi&eacute;e le 16 octobre 2026</span>
+</div>
+</div>
+
+<nav class="toc" aria-label="Sommaire">
+  <div class="toc-inner">
+    <a href="#fiche">Fiche technique</a>
+    <a href="#synopsis">Synopsis</a>
+    <a href="#production">Production</a>
+    <a href="#structure">Structure</a>
+    <a href="#miseenscene">Mise en scène</a>
+    <a href="#personnages">Personnages</a>
+    <a href="#themes">Thèmes</a>
+    <a href="#reception">Réception</a>
+    <a href="#conclusion">Conclusion</a>
+    <a href="#sources">Sources</a>
+  </div>
+</nav>
+
+<main>
+
+  <section class="block" id="fiche">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>1</strong></span>
+      <h2>Fiche technique <span class="mitemps-sous">— un homme, une journée</span></h2>
+    </div>
+    <p class="alerte">Le film représente l'extermination à Auschwitz, des cadavres et des chambres à gaz&nbsp;; ce texte en décrit le sujet sans détailler les scènes.</p>
+    <p>
+      <em>Le Fils de Saul</em> est le premier long métrage de László Nemes<a class="renvoi" href="#src-1">[1]</a>. Wikidata le décrit comme un drame hongrois de 2015 réalisé par László Nemes, ce qui confirme l'identité du film et de son réalisateur<a class="renvoi" href="#src-3">[3]</a>. Géza Röhrig joue Saul Ausländer<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-2">[2]</a>. Clara Royer co-écrit le scénario avec le réalisateur<a class="renvoi" href="#src-2">[2]</a>.
+    </p>
+    <p>
+      Le film est tourné en 35 mm, en vingt-huit jours, à Budafok, près de Budapest, pour un budget de 1,5 million d'euros, et il est produit entièrement en Hongrie<a class="renvoi" href="#src-1">[1]</a>. Il est présenté à Cannes le 15 mai 2015, sort en Hongrie le 11 juin 2015 et en France le 4 novembre 2015<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-2">[2]</a>. Il dure 107 minutes<a class="renvoi" href="#src-1">[1]</a><a class="renvoi" href="#src-2">[2]</a>.
+    </p>
+    <p>
+      Palmarès&nbsp;: Grand Prix du Festival de Cannes 2015 et prix de la FIPRESCI, Oscar du meilleur film en langue étrangère pour la 88e cérémonie, Golden Globe du meilleur film en langue étrangère en 2016<a class="renvoi" href="#src-2">[2]</a>.
+    </p>
+  </section>
+
+  <section class="block" id="synopsis">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>2</strong></span>
+      <h2>Synopsis <span class="mitemps-sous">— Auschwitz, octobre 1944</span></h2>
+    </div>
+    <p>
+      En octobre 1944, Saul Ausländer appartient à un Sonderkommando, ces prisonniers contraints de travailler dans les chambres à gaz<a class="renvoi" href="#src-1">[1]</a>. Il croit reconnaître dans un enfant mort son fils, et tente de le sauver pour l'enterrer selon le rite juif<a class="renvoi" href="#src-2">[2]</a>.
+    </p>
+    <p>
+      Le film ne quitte presque pas son personnage. Fernand Denis, dans <em>La Libre Belgique</em>, écrit&nbsp;: «&nbsp;On ne voit que ce qu'il voit mais rien ne nous est épargné.&nbsp;»<a class="renvoi" href="#src-4">[4]</a>
+    </p>
+  </section>
+
+  <section class="block" id="production">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>3</strong></span>
+      <h2>Contexte de production <span class="mitemps-sous">— vingt-huit jours, trente-cinq millimètres</span></h2>
+    </div>
+    <p>
+      Le tournage est court et le budget modeste&nbsp;: vingt-huit jours, un coût annoncé de 1,5 million d'euros, une production hongroise de bout en bout<a class="renvoi" href="#src-1">[1]</a>. Nemes signe là son premier long métrage<a class="renvoi" href="#src-1">[1]</a>.
+    </p>
+    <p>
+      Rapprochement d'analyse, non de source&nbsp;: la contrainte du budget se lit dans le dispositif. Un camp rendu par quelques décors, une caméra attachée à un seul homme&nbsp;: ce qui manque au film en moyens, il le retrouve dans le resserrement du cadre.
+    </p>
+  </section>
+
+  <section class="block" id="structure">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>4</strong></span>
+      <h2>Structure narrative <span class="mitemps-sous">— le cadre carré</span></h2>
+    </div>
+    <p>
+      Le récit ne suit pas la mécanique du camp, mais le regard d'un homme. Denis décrit le cadrage ainsi&nbsp;: «&nbsp;Nemes serre la tête et les épaules de Saul, l'emprisonne dans un cadre carré.&nbsp;»<a class="renvoi" href="#src-4">[4]</a> Le film avance dans cette prison visuelle, et le spectateur n'en sort que par ce que Saul lui-même voit.
+    </p>
+  </section>
+
+  <section class="block" id="miseenscene">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>5</strong></span>
+      <h2>Mise en scène et procédés <span class="mitemps-sous">— le son à la place de l'image</span></h2>
+    </div>
+    <p>
+      Denis parle d'une «&nbsp;image chaotique, floue&nbsp;» et d'un son «&nbsp;assourdissant&nbsp;», mixage du bruit du four, des cris, des ordres<a class="renvoi" href="#src-4">[4]</a>. Carole Lépinay, pour <em>AVCÉSAR</em>, écrit que la perception du camp est «&nbsp;à moitié auditive&nbsp;», et qu'on y entend «&nbsp;l'horrible crépitement d'un four que l'on ne verra pas&nbsp;»<a class="renvoi" href="#src-5">[5]</a>.
+    </p>
+    <p>
+      Rapprochement d'analyse, non de source&nbsp;: le film déplace l'horreur de l'image vers l'oreille. Ce qui n'est pas montré est entendu, et c'est ce déplacement, plus que la violence visible, qui fait la force du dispositif.
+    </p>
+  </section>
+
+  <section class="block" id="personnages">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>6</strong></span>
+      <h2>Personnages principaux <span class="mitemps-sous">— un homme, un enfant mort</span></h2>
+    </div>
+    <h3>Saul Ausländer (Géza Röhrig)</h3>
+    <p>
+      Denis décrit Saul en ces termes&nbsp;: «&nbsp;Confronté à l'horreur du matin au soir, il s'est cuirassé de toute émotion, il est un rouage qui obéit mécaniquement aux ordres.&nbsp;»<a class="renvoi" href="#src-4">[4]</a> Puis, au tournant du film&nbsp;: «&nbsp;Mais le dernier souffle d'un corps va réveiller l'humanité en lui.&nbsp;»<a class="renvoi" href="#src-4">[4]</a>
+    </p>
+    <h3>Les autres prisonniers</h3>
+    <p>
+      Wikipédia en français nomme parmi les rôles secondaires Levente Molnár (Ábrahám Warszawski) et Urs Rechn (Biedermann)<a class="renvoi" href="#src-2">[2]</a>. Ces personnages ne sont pas repris ici au-delà de leur nom, faute d'avoir lu une analyse qui les décrive.
+    </p>
+  </section>
+
+  <section class="block" id="themes">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>7</strong></span>
+      <h2>Thèmes <span class="mitemps-sous">— enterrer, témoigner</span></h2>
+    </div>
+
+    <h3>Un enterrement</h3>
+    <p>
+      Saul veut enterrer un enfant selon le rite juif<a class="renvoi" href="#src-2">[2]</a>. Rapprochement d'analyse, non de source&nbsp;: c'est le seul geste que le camp ne lui a pas pris, et le film le construit comme une tâche impossible, qui ne peut être qu'intime.
+    </p>
+
+    <h3>Une usine à cadavres</h3>
+    <p>
+      Denis conclut que le film montre Auschwitz comme «&nbsp;une usine où des hommes fabriquaient des cadavres&nbsp;», et non comme le territoire de héros survivants<a class="renvoi" href="#src-4">[4]</a>. Le thème est ici la production, non la survie.
+    </p>
+  </section>
+
+  <section class="block" id="reception">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>8</strong></span>
+      <h2>Réception critique et postérité <span class="mitemps-sous">— Cannes, les Oscars, les réserves</span></h2>
+    </div>
+    <p>
+      Le film est couronné à Cannes en 2015, reçoit l'Oscar du meilleur film en langue étrangère et le Golden Globe de la même catégorie<a class="renvoi" href="#src-2">[2]</a>. Denis salue «&nbsp;la prouesse exceptionnelle d'immerger le spectateur dans cet univers infernal&nbsp;»<a class="renvoi" href="#src-4">[4]</a>. Lépinay lui donne 7/10 et conclut&nbsp;: «&nbsp;Dur mais à voir.&nbsp;»<a class="renvoi" href="#src-5">[5]</a>
+    </p>
+    <p>
+      Claude Lanzmann, réalisateur de <em>Shoah</em>, déclare à <em>Télérama</em> que le film est «&nbsp;l'anti-Liste de Schindler&nbsp;», titre d'un entretien que Wikipédia en français relaie<a class="renvoi" href="#src-2">[2]</a>. Peter Bradshaw, dans <em>The Guardian</em>, lui donne cinq étoiles et y voit «&nbsp;un film d'horreur d'une concentration et d'un courage extraordinaires&nbsp;», citation rapportée par Wikipédia en anglais<a class="renvoi" href="#src-1">[1]</a>.
+    </p>
+    <p>
+      Les réserves viennent surtout de la presse française de 2015, rapportées par Wikipédia en français, sans lecture directe des textes&nbsp;: <em>Libération</em> regrette «&nbsp;l'absence de tout débat autour du film&nbsp;» et le consensus qui l'entoure, et les <em>Cahiers du cinéma</em> reprochent au film sa stratégie d'«&nbsp;immersion&nbsp;»<a class="renvoi" href="#src-2">[2]</a>.
+    </p>
+    <p class="discretion">
+      <strong>Ce qui n'a pas pu être vérifié.</strong> <em>The Guardian</em> n'a pas été accessible (refus de l'outil de lecture), et la critique d'<em>IndieWire</em> a été redirigée sans être lue. Les textes de <em>Télérama</em>, <em>Libération</em> et des <em>Cahiers du cinéma</em> ne sont connus que par Wikipédia en français. Deux articles savants (<em>La Vie des idées</em>, Erudit) n'ont pas pu être lus. Le Golden Globe et le prix FIPRESCI viennent de Wikipédia en français, non d'une fiche officielle.
+    </p>
+  </section>
+
+  <section class="block" id="conclusion">
+    <div class="mitemps-head">
+      <span class="mitemps">temps<strong>9</strong></span>
+      <h2>Conclusion <span class="mitemps-sous">— le regard, plus que l'image</span></h2>
+    </div>
+    <p>
+      Le film tient par une contrainte qu'il s'impose&nbsp;: un cadre resserré sur Saul, et un son qui prend la place de l'image. Denis et Lépinay décrivent le même mécanisme, depuis deux angles différents<a class="renvoi" href="#src-4">[4]</a><a class="renvoi" href="#src-5">[5]</a>. Rapprochement d'analyse, non de source&nbsp;: ce choix change un sujet réputé réservé à l'image en question d'écoute.
+    </p>
+    <p>
+      La réserve la plus forte vient de la presse française&nbsp;: une immersion qui devient une stratégie<a class="renvoi" href="#src-2">[2]</a>. Cette page la prend au sérieux sans la faire sienne&nbsp;: le film assume ce risque, et Lépinay conclut&nbsp;: «&nbsp;Dur mais à voir.&nbsp;»<a class="renvoi" href="#src-5">[5]</a>
+    </p>
+  </section>
+
+</main>
+
+<section class="sources" id="sources">
+  <div class="sources-inner">
+    <span class="meta-label" style="color:#b9925a;">Sources consultées</span>
+    <h2>Le registre des cendres</h2>
+    <ol class="source-list">
+      <li id="src-1">Wikipédia (EN), « Son of Saul » — <a href="https://en.wikipedia.org/wiki/Son_of_Saul" target="_blank" rel="noopener">en.wikipedia.org &mdash; Son of Saul</a></li>
+      <li id="src-2">Wikipédia (FR), « Le Fils de Saul » — <a href="https://fr.wikipedia.org/wiki/Le_Fils_de_Saul" target="_blank" rel="noopener">fr.wikipedia.org &mdash; Le Fils de Saul</a></li>
+      <li id="src-3">Wikidata, élément Q19816400 — <a href="https://www.wikidata.org/wiki/Q19816400" target="_blank" rel="noopener">wikidata.org/wiki/Q19816400</a></li>
+      <li id="src-4">Fernand Denis, critique, <em>La Libre Belgique</em>, 26 octobre 2015 — <a href="https://www.lalibre.be/culture/cinema/le-fils-de-saul-film-sur-la-shoah-a-voir-sans-mouchoir-562e4ba535700fb930074d0f" target="_blank" rel="noopener">lalibre.be &mdash; « Le Fils de Saul : film sur la Shoah à voir sans mouchoir »</a></li>
+      <li id="src-5">Carole Lépinay, critique, <em>AVCÉSAR</em>, 11 mai 2016 — <a href="https://www.avcesar.com/critique/le-fils-de-saul-4765" target="_blank" rel="noopener">avcesar.com &mdash; Le Fils de Saul</a></li>
+    </ol>
+  </div>
+</section>
+
+<footer class="endnote">
+  Analyse compilée à partir de sources publiques consultées le 16 octobre 2026 — usage éditorial non commercial
+  <br><a href="../index.html">Retour aux analyses</a>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var id = this.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        e.stopPropagation();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+});
+</script>
+
+</body>
+</html>

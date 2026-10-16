@@ -57,6 +57,7 @@ le lot 5 a outillé la chaîne, il ne l'a pas activée.*
 | 2026-10-10 10:28:27 UTC | 61 | Chaleur et poussière | publié | — | Claude Fable 5.1 | 4 min | (ce commit) | prod 53AA01FB · calque v1.7 EB2E6CA7 |
 | 2026-10-10 10:34:36 UTC | 60 | Les chevaux de Dieu | publié | — | Claude Fable 5.1 | 4 min | (ce commit) | prod 53AA01FB · calque v1.7 EB2E6CA7 |
 | 2026-10-16 15:53:38 UTC | 59 | In the Mood for Love | publié | — | Claude Haiku 5.5 | 5 min | (ce commit) | prod 53AA01FB · calque v1.7 EB2E6CA7 |
+| 2026-10-16 15:57:32 UTC | 58 | Le Fils de Saul | publié | — | Claude Haiku 5.5 | 3 min | (ce commit) | prod 53AA01FB · calque v1.7 EB2E6CA7 |
 
 *Note de la colonne 8, première activation.* L'étape 11 du calque ne fait **qu'un seul commit**, et
 ce commit porte ce fichier : la ligne ne peut donc pas contenir le SHA du commit dont elle fait

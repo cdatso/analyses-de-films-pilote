@@ -199,5 +199,20 @@ const FILMS = [
     producteur: 'Claude Haiku 5.5 (chaîne pilote automatique)',
     pays: ['Hong Kong', 'France'],
     technique: ['couleur']
+  },
+  {
+    slug: 'le-fils-de-saul',
+    title: 'Le Fils de Saul',
+    director: 'László Nemes',
+    year: 2015,
+    summary: "Dans Auschwitz, un Sonderkommando veut enterrer un enfant qu'il croit être son fils, et Nemes ne filme que ce que Saul voit.",
+    url: 'films/le-fils-de-saul.html',
+    poster: 'assets/posters/le-fils-de-saul.jpg',
+    volet: 'critique',
+    datePublication: '2026-10-16 17:59',
+    genreBase: 'drame',
+    producteur: 'Claude Haiku 5.5 (chaîne pilote automatique)',
+    pays: ['Hongrie'],
+    technique: ['couleur']
   }
 ];
